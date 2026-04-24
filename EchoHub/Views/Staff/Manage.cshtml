@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Manage";
+}
+@{
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+@model List<EchoHub.Models.EwasteItem>
+
+
+<h2>Manage E-Waste</h2>
+
+<table border="1">
+    <tr>
+        <th>Item Name</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Item_Name</td>
+            <td>@item.Category</td>
+            <td>@item.Status</td>
+            <td>@item.DateSubmitted</td>
+            <td>
+                <a href="/Staff/View/@item.EwasteId">View</a> |
+                <a href="/Staff/Update/@item.EwasteId">Update</a>
+            </td>
+        </tr>
+    }
+</table>
+

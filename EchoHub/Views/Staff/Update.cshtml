@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Update";
+}
+@{
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+@model EchoHub.Models.EwasteItem
+
+
+<h2>Update Item</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="EwasteId" />
+
+    <input asp-for="Item_Name" />
+    <br />
+
+    <input asp-for="Category" />
+    <br />
+
+    <textarea asp-for="Description"></textarea>
+    <br />
+
+    <select asp-for="Status">
+        <option>Pending</option>
+        <option>Collected</option>
+        <option>Recycling</option>
+        <option>Disposed</option>
+    </select>
+
+    <br />
+    <button type="submit">Save</button>
+</form>
+

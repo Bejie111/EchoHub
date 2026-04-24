@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "_StaffLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Panel</title>
+    <link rel="stylesheet" href="~/css/staff.css" />
+</head>
+<body>
+    <div class="sidebar">
+        <h2>E-Waste Staff</h2>
+
+        <a href="/Staff/Dashboard">Dashboard</a>
+        <a href="/Staff/Manage">Manage E-Waste</a>
+        <a href="/Staff/Collection">Collection Management</a>
+        <a href="/Recycling/Index">Recycling</a>
+        <a href="/Account/Login">Logout</a>
+    </div>
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+</body>
+</html>
+

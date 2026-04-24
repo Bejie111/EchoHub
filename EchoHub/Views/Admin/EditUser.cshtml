@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+@model EchoHub.Models.User
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <input asp-for="Name" />
+    <br />
+
+    <input asp-for="Email" />
+    <br />
+
+    <select asp-for="Role">
+        <option>User</option>
+        <option>Staff</option>
+        <option>Admin</option>
+    </select>
+
+    <br />
+    <button type="submit">Save</button>
+</form>
+
