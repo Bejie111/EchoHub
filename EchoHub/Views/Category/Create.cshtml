@@ -1,0 +1,18 @@
+﻿@model EchoHub.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Add Category</h2>
+
+<form method="post">
+    <input asp-for="Name" placeholder="Category Name" />
+    <br />
+    <button type="submit">Save</button>
+</form>
+

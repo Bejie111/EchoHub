@@ -1,0 +1,33 @@
+﻿@model List<EchoHub.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Category Management</h2>
+
+<a href="/Category/Create">Add Category</a>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.Name</td>
+            <td>
+                <a asp-controller="Category" asp-action="Edit" asp-route-CategoryId="@c.CategoryId">Edit</a> |
+                <a asp-controller="Category" asp-action="Delete" asp-route-CategoryId="@c.CategoryId"
+                   onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+

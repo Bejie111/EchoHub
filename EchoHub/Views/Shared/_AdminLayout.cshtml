@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "_AdminLayout";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>E-Waste Admin</h2>
+
+        <a href="/Admin/Dashboard">Dashboard</a>
+        <a href="/Admin/Users">User Management</a>
+        <a href="/Category/Index">Category Management</a>
+        <a href="/Report/Index">Reports</a>
+        <a href="/Account/Login">Logout</a>
+    </div>
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+</body>
+</html>

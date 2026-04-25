@@ -1,0 +1,19 @@
+﻿@model EchoHub.Models.User
+
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<h2>Register</h2>
+
+<form method="post">
+    <input asp-for="Name" placeholder="Name" />
+    <br />
+    <input asp-for="Email" placeholder="Email" />
+    <br />
+    <input asp-for="Password" type="password" placeholder="Password" />
+    <br />
+    <button type="submit">Register</button>
+</form>
