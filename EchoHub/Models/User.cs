@@ -21,8 +21,7 @@ namespace EchoHub.Models
         public string Password { get; set; }
 
         //Authorization: Determines system access levels (e.g., "Admin", "Staff", "User")
-        [Required]
-        public string Role { get; set; }
+        public string Role { get; set; } = "User";
 
         //Automatically records when the account was created
         public DateTime CreatedAt { get; set; } = DateTime.Now;
