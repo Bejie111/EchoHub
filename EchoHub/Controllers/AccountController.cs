@@ -79,8 +79,7 @@ namespace EchoHub.Controllers
         {
             //Checks if the data provided matches the requirements set in the User Model
             if (ModelState.IsValid)
-            {
-                user.Role = "User"; //New registrants are assigned the "User" role by default
+            { 
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
