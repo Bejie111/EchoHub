@@ -12,5 +12,7 @@ namespace EchoHub.Data
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<EwasteItem> EwasteItems { get; set; }
+
+        public DbSet<Collection> Collections { get; set; }
     }
 }

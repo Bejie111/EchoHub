@@ -21,5 +21,6 @@ namespace EchoHub.Models
         public DateTime DateSubmitted { get; set; }
 
         public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

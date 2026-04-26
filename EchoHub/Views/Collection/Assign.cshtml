@@ -1,0 +1,38 @@
+﻿@model EchoHub.Models.Collection
+
+@{
+    ViewData["Title"] = "Assign Collection";
+}
+
+@{
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+<h2>Assign Collection</h2>
+
+<form asp-action="Assign" method="post">
+
+    <input type="hidden" name="EwasteId" value="@ViewBag.EwasteId" />
+
+    <div class="mb-3">
+        <label>Item Name</label>
+        <input class="form-control" value="@ViewBag.ItemName" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label>Assign Staff</label>
+        <select name="StaffId" asp-items="ViewBag.StaffList" class="form-control">
+            <option value="">-- Select Staff --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Schedule Date</label>
+        <input type="date" name="ScheduleDate" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Assignment</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+</form>
+
