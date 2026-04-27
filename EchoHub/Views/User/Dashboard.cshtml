@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EchoHub.Models.EwasteItem>
+
+@{
+    ViewData["Title"] = "User Dashboard";
+}
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/userdashboard.css" />
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <h2>Dashboard</h2>
+        <p class="subtext">Monitor your e-waste activity and recycle progress</p>
+
+        <!-- Cards -->
+        <div class="cards">
+
+            <div class="card">
+                <h4>Total Submission</h4>
+                <h2>@ViewBag.TotalSubmission</h2>
+            </div>
+
+            <div class="card">
+                <h4>Items Recycled</h4>
+                <h2>@ViewBag.Recycled</h2>
+            </div>
+
+            <div class="card">
+                <h4>Items Pending</h4>
+                <h2>@ViewBag.Pending</h2>
+            </div>
+
+            <div class="card">
+                <h4>Total Items</h4>
+                <h2>@ViewBag.TotalItems</h2>
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-box">
+            <h4>Quick Actions</h4>
+            <a href="/User/Submit" class="btn-green">+ Submit New Item</a>
+        </div>
+
+        <!-- Recent Submissions -->
+        <div class="recent-box">
+
+            <div class="header-line">
+                <h4>Recent Submissions</h4>
+                <a href="/User/MySubmission">View All</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Status</th>
+                        <th>Date Submitted</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.Take(5))
+                    {
+                        <tr>
+                            <td>@item.Item_Name</td>
+                            <td>@item.Status</td>
+                            <td>@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+</div>
+

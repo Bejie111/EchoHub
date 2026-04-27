@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Submit";
+}
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@model EchoHub.Models.EwasteItem
+
+<link rel="stylesheet" href="~/css/userpages.css" />
+
+<div class="container-box">
+
+    <h2>Submit E-Waste</h2>
+    <p>Fill the details of your e-waste item for proper disposal.</p>
+
+    <form method="post" enctype="multipart/form-data">
+      
+        <label>Item Name</label>
+        <input type="text" name="Item_Name" required />
+
+        <label>Category</label>
+
+        <select name="Category" required>
+            <option value="">-- Select Category --</option>
+
+            @foreach (var cat in ViewBag.Categories)
+            {
+                <option value="@cat.Name">
+                    @cat.Name
+                </option>
+            }
+        </select>
+
+        <label>Description</label>
+        <textarea name="Description"></textarea>
+
+        <label>Upload Image</label>
+        <input type="file" name="file" />
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+</div>
