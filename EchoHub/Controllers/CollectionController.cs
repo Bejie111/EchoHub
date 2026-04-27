@@ -18,21 +18,19 @@ namespace EchoHub.Controllers
         // DASHBOARD
         public IActionResult Collect()
         {
-            // Pending E-waste items not yet assigned
-            ViewBag.PendingItems = _context.EwasteItems
+           //Pending 
+           ViewBag.PendingItems = _context.EwasteItems
                 .Include(e => e.User)
-                .Where(e => !_context.Collections.Any(c => c.EwasteId == e.EwasteId))
+                .Where(e => e.Status == "Pending" && !_context.Collections.Any(c => c.EwasteId == e.EwasteId))
                 .ToList();
 
-            // Scheduled Collections
-            var scheduled = _context.Collections
+            var collections = _context.Collections
                 .Include(c => c.EwasteItem)
                     .ThenInclude(e => e.User)
                 .Include(c => c.Staff)
-                .Where(c => c.Status == "Scheduled")
+                .OrderByDescending(c => c.ScheduleDate)
                 .ToList();
-
-            return View(scheduled);
+            return View(collections);
         }
 
         // GET: Assign Collection
@@ -48,7 +46,7 @@ namespace EchoHub.Controllers
 
             ViewBag.StaffList = new SelectList(
                 _context.Users.Where(u => u.Role == "Staff"),
-                "UserId",
+                "Id",
                 "Name"
             );
 
@@ -62,16 +60,17 @@ namespace EchoHub.Controllers
             if (ModelState.IsValid)
             {
                 collection.Status = "Scheduled";
+                collection.CollectionDate = null;
 
                 _context.Collections.Add(collection);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Collect");
             }
 
             ViewBag.StaffList = new SelectList(
                 _context.Users.Where(u => u.Role == "Staff"),
-                "UserId",
+                "Id",
                 "Name"
             );
 
@@ -81,17 +80,24 @@ namespace EchoHub.Controllers
         // Mark as Collected
         public IActionResult MarkCollected(int id)
         {
-            var collect = _context.Collections.Find(id);
+            var collect = _context.Collections
+                .Include(c => c.EwasteItem)
+                .FirstOrDefault(c => c.CollectionId == id);
 
             if (collect != null)
             {
                 collect.Status = "Collected";
                 collect.CollectionDate = DateTime.Now;
 
+                if(collect.EwasteItem != null)
+                {
+                    collect.EwasteItem.Status = "Collected";
+                }
+
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Collect");
         }
     }
 }

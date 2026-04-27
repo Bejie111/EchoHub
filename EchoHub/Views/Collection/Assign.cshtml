@@ -2,37 +2,76 @@
 
 @{
     ViewData["Title"] = "Assign Collection";
-}
-
-@{
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
 
-<h2>Assign Collection</h2>
+<div class="assign-page">
 
-<form asp-action="Assign" method="post">
-
-    <input type="hidden" name="EwasteId" value="@ViewBag.EwasteId" />
-
-    <div class="mb-3">
-        <label>Item Name</label>
-        <input class="form-control" value="@ViewBag.ItemName" readonly />
+    <!-- Header -->
+    <div class="assign-header">
+        <h2>Assign Collection</h2>
+        <p>Schedule pickup and assign staff for the selected e-waste item.</p>
     </div>
 
-    <div class="mb-3">
-        <label>Assign Staff</label>
-        <select name="StaffId" asp-items="ViewBag.StaffList" class="form-control">
-            <option value="">-- Select Staff --</option>
-        </select>
+    <!-- Card -->
+    <div class="assign-card">
+
+        <form asp-action="Assign" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <!-- Hidden -->
+            <input type="hidden" asp-for="EwasteId" value="@ViewBag.EwasteId" />
+
+            <!-- Item Name -->
+            <div class="form-group">
+                <label>Item Name</label>
+                <input type="text"
+                       class="form-control"
+                       value="@ViewBag.ItemName"
+                       readonly />
+            </div>
+
+            <!-- Staff -->
+            <div class="form-group">
+                <label>Select Staff</label>
+
+                <select asp-for="StaffId"
+                        asp-items="ViewBag.StaffList"
+                        class="form-control">
+                    <option value="">-- Choose Staff --</option>
+                </select>
+
+                <span asp-validation-for="StaffId" class="text-danger"></span>
+            </div>
+
+            <!-- Schedule -->
+            <div class="form-group">
+                <label>Schedule Date</label>
+
+                <input asp-for="ScheduleDate"
+                       type="date"
+                       class="form-control" />
+
+                <span asp-validation-for="ScheduleDate" class="text-danger"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-row">
+
+                <button type="submit" class="btn-green">
+                    Save Assignment
+                </button>
+
+                <a asp-action="Collect"
+                   class="btn-light">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="mb-3">
-        <label>Schedule Date</label>
-        <input type="date" name="ScheduleDate" class="form-control" required />
-    </div>
-
-    <button type="submit" class="btn btn-success">Save Assignment</button>
-    <a asp-action="Index" class="btn btn-secondary">Back</a>
-
-</form>
-
+</div>
