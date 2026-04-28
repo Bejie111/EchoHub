@@ -9,8 +9,8 @@
 
     <!-- Header -->
     <div class="assign-header">
-        <h2>Assign Collection</h2>
-        <p>Schedule pickup and assign staff for the selected e-waste item.</p>
+        <h2>Schedule Collection</h2>
+        <p>Schedule pickup for the selected e-waste item.</p>
     </div>
 
     <!-- Card -->
@@ -31,20 +31,6 @@
                        value="@ViewBag.ItemName"
                        readonly />
             </div>
-
-            <!-- Staff -->
-            <div class="form-group">
-                <label>Select Staff</label>
-
-                <select asp-for="StaffId"
-                        asp-items="ViewBag.StaffList"
-                        class="form-control">
-                    <option value="">-- Choose Staff --</option>
-                </select>
-
-                <span asp-validation-for="StaffId" class="text-danger"></span>
-            </div>
-
             <!-- Schedule -->
             <div class="form-group">
                 <label>Schedule Date</label>
@@ -60,7 +46,7 @@
             <div class="btn-row">
 
                 <button type="submit" class="btn-green">
-                    Save Assignment
+                    Save Schedule
                 </button>
 
                 <a asp-action="Collect"
