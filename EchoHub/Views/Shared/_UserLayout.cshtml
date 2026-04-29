@@ -1,43 +1,115 @@
-﻿
-@{
-    ViewData["Title"] = "_UserLayout";
+﻿@{
+    var currentPage = ViewContext.RouteData.Values["action"]?.ToString();
 }
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EchoHub</title>
 
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Your existing User CSS -->
     <link rel="stylesheet" href="~/css/user.css" />
+    <!-- New Layout CSS -->
+    <link rel="stylesheet" href="~/css/UserLayout.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
 
-    <div class="layout">
+    <div class="user-wrapper">
 
-        <!-- Sidebar -->
+        <!-- ── SIDEBAR ── -->
         <aside class="sidebar">
 
-            <div class="logo">♻ E-Waste</div>
+            <!-- Brand -->
+            <div class="sidebar-brand">
+                <div class="brand-icon-sm">
+                    <i class="bi bi-recycle"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">E-Waste</span>
+                    <span class="brand-sub">User Portal</span>
+                </div>
+            </div>
 
-            <ul>
-                <li><a href="/User/Dashboard">Dashboard</a></li>
-                <li><a href="/User/Submit">Submit E-Waste</a></li>
-                <li><a href="/User/MySubmission">My Submission</a></li>
-                <li><a href="/Account/Login">Logout</a></>
-            </ul>
+            <!-- Nav Links -->
+            <nav class="sidebar-nav">
+                <a href="/User/Dashboard"
+                   class="nav-item @(currentPage == "Dashboard" ? "active" : "")">
+                    <i class="bi bi-grid-1x2"></i>
+                    <span>Dashboard</span>
+                </a>
 
-            <div class="bottom-user">
-                @Context.Session.GetString("Name")
+                <a href="/User/Submit"
+                   class="nav-item @(currentPage == "Submit" ? "active" : "")">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Submit E-Waste</span>
+                </a>
+
+                <a href="/User/MySubmission"
+                   class="nav-item @(currentPage == "MySubmission" ? "active" : "")">
+                    <i class="bi bi-list-ul"></i>
+                    <span>My Submissions</span>
+                </a>
+            </nav>
+
+            <!-- Bottom User Info -->
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar-sm">
+                        @(Context.Session.GetString("Name")?.Substring(0, 1).ToUpper() ?? "U")
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">@Context.Session.GetString("Name")</span>
+                        <span class="user-role">User</span>
+                    </div>
+                </div>
             </div>
 
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            @RenderBody()
-        </main>
+        <!-- ── MAIN AREA ── -->
+        <div class="main-area">
+
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="breadcrumb-title">
+                    User / @ViewData["Title"]
+                </div>
+                <div class="navbar-right">
+                    <!-- Notification Bell -->
+                    <a href="/User/Notifications" class="notif-bell">
+                        <i class="bi bi-bell"></i>
+                        <span class="notif-count">3</span>
+                    </a>
+                    <!-- User Avatar -->
+                    <div class="user-avatar-top">
+                        @(Context.Session.GetString("Name")?.Substring(0, 1).ToUpper() ?? "U")
+                    </div>
+                    <span class="top-username">@Context.Session.GetString("Name")</span>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="page-content">
+                @RenderBody()
+            </main>
+
+        </div>
 
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

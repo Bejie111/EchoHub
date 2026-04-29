@@ -1,0 +1,135 @@
+﻿/* ── MY SUBMISSIONS PAGE ── */
+
+.submit-header {
+    margin-bottom: 24px;
+}
+
+    .submit-header h2 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+    }
+
+    .submit-header p {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+.submit-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.card-section-title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    .card-section-title strong {
+        font-size: 1rem;
+        color: #1a1a2e;
+    }
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+    .status-badge.recycled {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-badge.collected {
+        background: #cce5ff;
+        color: #004085;
+    }
+
+    .status-badge.pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-badge.disposed {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+/* Table */
+.submissions-table {
+    font-size: 0.875rem;
+    width: 100%;
+}
+
+    .submissions-table thead th {
+        font-weight: 600;
+        color: #495057;
+        border-bottom: 1px solid #e9ecef;
+        padding: 10px 14px;
+    }
+
+    .submissions-table tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #f1f3f5;
+        color: #2d3436;
+        vertical-align: middle;
+    }
+
+    .submissions-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .submissions-table tbody tr:hover {
+        background: #f8fffe;
+    }
+
+.showing-count {
+    font-size: 0.78rem;
+    color: #adb5bd;
+    margin-top: 12px;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 48px 20px;
+    color: #adb5bd;
+}
+
+    .empty-state i {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
+        margin-bottom: 14px;
+    }
+
+.btn-submit-sm {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 8px 20px;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+}
+
+    .btn-submit-sm:hover {
+        opacity: 0.9;
+        color: #fff;
+    }
+s

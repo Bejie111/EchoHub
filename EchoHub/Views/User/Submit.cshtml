@@ -10,37 +10,80 @@
 
 <link rel="stylesheet" href="~/css/userpages.css" />
 
-<div class="container-box">
-
+<div class="submit-header">
     <h2>Submit E-Waste</h2>
-    <p>Fill the details of your e-waste item for proper disposal.</p>
-
-    <form method="post" enctype="multipart/form-data">
-      
-        <label>Item Name</label>
-        <input type="text" name="Item_Name" required />
-
-        <label>Category</label>
-
-        <select name="Category" required>
-            <option value="">-- Select Category --</option>
-
-            @foreach (var cat in ViewBag.Categories)
-            {
-                <option value="@cat.Name">
-                    @cat.Name
-                </option>
-            }
-        </select>
-
-        <label>Description</label>
-        <textarea name="Description"></textarea>
-
-        <label>Upload Image</label>
-        <input type="file" name="file" />
-
-        <button type="submit">Submit</button>
-
-    </form>
-
+    <p>Fill in the details of the electronic waste you want to submit.</p>
 </div>
+
+<div class="submit-card">
+    <div class="card-section-title">
+        <strong>E-Waste Details</strong>
+        <span>Provide information about the item you're submitting</span>
+    </div>
+
+    <form asp-action="Submit" asp-controller="User" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Item Name <span class="text-danger">*</span></label>
+            <input type="text" name="ItemName" class="form-control" placeholder="e.g., iPhone 11 Pro" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Category <span class="text-danger">*</span></label>
+            <select name="Category" class="form-select" required>
+                <option value="" disabled selected>Select a category</option>
+                <option>Phone</option>
+                <option>Laptop</option>
+                <option>Tablet</option>
+                <option>Printer</option>
+                <option>Monitor</option>
+                <option>Television</option>
+                <option>Mouse</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="Description" class="form-control" rows="3"
+                      placeholder="Describe the condition and any issues with the item..."></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Upload Image</label>
+            <div class="upload-zone" id="uploadZone">
+                <i class="bi bi-upload upload-icon"></i>
+                <p class="upload-text">Drag and drop an image here, or click to browse</p>
+                <p class="upload-hint">PNG, JPG up to 5MB</p>
+                <input type="file" name="Image" id="fileInput" accept="image/*" hidden />
+            </div>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger small" })
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-submit">Submit E-Waste</button>
+            <a asp-action="Dashboard" asp-controller="User" class="btn btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const zone = document.getElementById('uploadZone');
+    const input = document.getElementById('fileInput');
+    zone.addEventListener('click', () => input.click());
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) {
+            input.files = e.dataTransfer.files;
+            zone.querySelector('.upload-text').textContent = e.dataTransfer.files[0].name;
+        }
+    });
+    input.addEventListener('change', () => {
+        if (input.files[0]) zone.querySelector('.upload-text').textContent = input.files[0].name;
+    });
+</script>
