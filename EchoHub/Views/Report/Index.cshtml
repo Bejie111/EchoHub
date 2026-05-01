@@ -1,0 +1,207 @@
+﻿@model List<EchoHub.Models.Category>
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Admin.css" />
+
+<div class="submit-header d-flex justify-content-between align-items-start">
+    <div>
+        <h2>Reports</h2>
+        <p>Generate and export system reports.</p>
+    </div>
+    <button class="btn-add" onclick="window.print()">
+        <i class="bi bi-download"></i> Add to Report
+    </button>
+</div>
+
+<!-- Report Filters -->
+<div class="section-card mb-3">
+    <div class="section-title">Report Filters</div>
+    <div class="report-filters">
+        <div class="filter-group">
+            <label>Report Type</label>
+            <select class="filter-select">
+                <option>E-Waste Overview</option>
+                <option>User Activity</option>
+                <option>Category Analysis</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Time Range</label>
+            <select class="filter-select">
+                <option>Last Month</option>
+                <option>Last 3 Months</option>
+                <option>Last 6 Months</option>
+                <option>Last Year</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Status Review</label>
+            <select class="filter-select">
+                <option>All</option>
+                <option>Pending</option>
+                <option>Recycled</option>
+                <option>Disposed</option>
+                <option>Collected</option>
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button class="btn-pdf">
+                <i class="bi bi-file-earmark-pdf"></i> PDF
+            </button>
+            <button class="btn-excel">
+                <i class="bi bi-file-earmark-excel"></i> Excel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Report Summary -->
+<div class="section-card mb-3">
+    <div class="section-title">Report Summary</div>
+    <div class="report-summary-grid">
+        <div class="summary-box blue">
+            <span class="summary-label">Total Collected Items</span>
+            <span class="summary-value">@ViewBag.TotalItems</span>
+        </div>
+        <div class="summary-box green">
+            <span class="summary-label">Items Recycled</span>
+            <span class="summary-value">@ViewBag.TotalRecycled</span>
+        </div>
+        <div class="summary-box red">
+            <span class="summary-label">Items Disposed</span>
+            <span class="summary-value">@ViewBag.TotalDisposed</span>
+        </div>
+    </div>
+</div>
+
+<!-- Monthly Statistics -->
+<div class="section-card mb-3">
+    <div class="section-title">Monthly Statistics</div>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Submitted</th>
+                <th>Recycled</th>
+                <th>Disposed</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.MonthlyStats != null)
+            {
+                @foreach (var stat in ViewBag.MonthlyStats)
+                {
+                    <tr>
+                        <td>@stat.Month</td>
+                        <td>@stat.Submitted</td>
+                        <td>@stat.Recycled</td>
+                        <td>@stat.Disposed</td>
+                        <td class="time-ago" data-date="@stat.Date">-</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center empty-state">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No data available.</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Category Breakdown -->
+<div class="section-card mb-3">
+    <div class="section-title">Category Breakdown</div>
+    @if (ViewBag.CategoryBreakdown != null)
+    {
+        @foreach (var cat in ViewBag.CategoryBreakdown)
+        {
+            <div class="breakdown-row">
+                <span class="breakdown-label">@cat.Category</span>
+                <div class="breakdown-bar-wrap">
+                    <div class="breakdown-bar"
+                         style="width: @cat.Percentage%"></div>
+                </div>
+                <span class="breakdown-value">@cat.Count items (@cat.Percentage%)</span>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state text-center">
+            <i class="bi bi-pie-chart"></i>
+            <p>No category data.</p>
+        </div>
+    }
+</div>
+
+<!-- User Activity Report -->
+<div class="section-card mb-3">
+    <div class="section-title">User Activity Report</div>
+    <div class="user-activity-grid">
+        <div class="activity-stat-box blue">
+            <span class="activity-stat-label">Active Users</span>
+            <span class="activity-stat-value">@ViewBag.TotalUsers</span>
+            <span class="activity-stat-sub">Total registered users</span>
+        </div>
+        <div class="activity-stat-box green">
+            <span class="activity-stat-label">New After This Month</span>
+            <span class="activity-stat-value">+@ViewBag.NewUsers</span>
+            <span class="activity-stat-sub">this month</span>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Export -->
+<div class="section-card">
+    <div class="section-title">Quick Export</div>
+    <p style="font-size:0.82rem; color:#6c757d; margin-bottom:16px;">
+        Generate and download reports for common use cases.
+    </p>
+    <div class="quick-export-grid">
+        <button class="export-btn">
+            <i class="bi bi-file-earmark-text"></i> Reports Summary
+        </button>
+        <button class="export-btn">
+            <i class="bi bi-bar-chart"></i> Monthly Report
+        </button>
+        <button class="export-btn">
+            <i class="bi bi-tag"></i> Category Analysis
+        </button>
+        <button class="export-btn">
+            <i class="bi bi-people"></i> Annual Report
+        </button>
+        <button class="export-btn">
+            <i class="bi bi-person-check"></i> User Statistics
+        </button>
+        <button class="export-btn">
+            <i class="bi bi-123"></i> All Data Count
+        </button>
+    </div>
+</div>
+
+<script>
+    function timeAgo(dateStr) {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diff = Math.floor((now - date) / 1000);
+        if (diff < 60)          return diff + " seconds ago";
+        if (diff < 3600)        return Math.floor(diff / 60) + " minutes ago";
+        if (diff < 86400)       return Math.floor(diff / 3600) + " hours ago";
+        if (diff < 86400 * 7)   return Math.floor(diff / 86400) + " days ago";
+        if (diff < 86400 * 30)  return Math.floor(diff / 604800) + " weeks ago";
+        return Math.floor(diff / 2592000) + " months ago";
+    }
+
+    document.querySelectorAll('.time-ago').forEach(el => {
+        const date = el.getAttribute('data-date');
+        if (date) el.textContent = timeAgo(date);
+    });
+</script>
