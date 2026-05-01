@@ -59,44 +59,20 @@
                     <i class="bi bi-list-ul"></i>
                     <span>My Submissions</span>
                 </a>
+
+                <li class="nav-item mt-4">
+                    <a class="nav-link text-danger" href="/Account/Login">
+                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                    </a>
+                </li>
+
             </nav>
 
-            <!-- Bottom User Info -->
-            <div class="sidebar-footer">
-                <div class="sidebar-user">
-                    <div class="user-avatar-sm">
-                        @(Context.Session.GetString("Name")?.Substring(0, 1).ToUpper() ?? "U")
-                    </div>
-                    <div class="user-info">
-                        <span class="user-name">@Context.Session.GetString("Name")</span>
-                        <span class="user-role">User</span>
-                    </div>
-                </div>
-            </div>
 
         </aside>
 
         <!-- ── MAIN AREA ── -->
         <div class="main-area">
-
-            <!-- Top Navbar -->
-            <header class="top-navbar">
-                <div class="breadcrumb-title">
-                    User / @ViewData["Title"]
-                </div>
-                <div class="navbar-right">
-                    <!-- Notification Bell -->
-                    <a href="/User/Notifications" class="notif-bell">
-                        <i class="bi bi-bell"></i>
-                        <span class="notif-count">3</span>
-                    </a>
-                    <!-- User Avatar -->
-                    <div class="user-avatar-top">
-                        @(Context.Session.GetString("Name")?.Substring(0, 1).ToUpper() ?? "U")
-                    </div>
-                    <span class="top-username">@Context.Session.GetString("Name")</span>
-                </div>
-            </header>
 
             <!-- Page Content -->
             <main class="page-content">
