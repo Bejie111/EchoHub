@@ -1,33 +1,100 @@
 ﻿@model List<EchoHub.Models.Category>
-
 @{
-    ViewData["Title"] = "Index";
-}
-
-@{
+    ViewData["Title"] = "Category Management";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<link rel="stylesheet" href="~/css/Admin.css" />
 
-<h2>Category Management</h2>
+<div class="submit-header">
+    <h2>Category Management</h2>
+    <p>Manage e-waste categories and classifications.</p>
+</div>
 
-<a href="/Category/Create">Add Category</a>
+<div class="section-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <span class="section-title mb-0">E-Waste Categories</span>
+        <a href="/Category/Create" class="btn-add">
+            <i class="bi bi-plus"></i> Add Category
+        </a>
+    </div>
 
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Actions</th>
-    </tr>
+    <!-- Category Cards Grid -->
+    <div class="category-grid">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var c in Model)
+            {
+                <div class="category-card">
+                    <div class="category-card-top">
+                        <div class="category-icon">
+                            <i class="bi bi-recycle"></i>
+                        </div>
+                        <div class="category-info">
+                            <span class="category-name">@c.Name</span>
+                            <span class="category-count">@c.CategoryId items</span>
+                        </div>
+                    </div>
+                    <p class="category-desc">@c.Name</p>
+                    <div class="category-actions">
+                        <a asp-controller="Category"
+                           asp-action="Edit"
+                           asp-route-CategoryId="@c.CategoryId"
+                           class="btn-edit">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Delete"
+                           asp-route-CategoryId="@c.CategoryId"
+                           class="btn-delete-icon"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state text-center">
+                <i class="bi bi-tag"></i>
+                <p>No categories yet.</p>
+                <a href="/Category/Create" class="btn-add mt-2">
+                    <i class="bi bi-plus"></i> Add Category
+                </a>
+            </div>
+        }
+    </div>
+</div>
 
-    @foreach (var c in Model)
-    {
-        <tr>
-            <td>@c.Name</td>
-            <td>
-                <a asp-controller="Category" asp-action="Edit" asp-route-CategoryId="@c.CategoryId">Edit</a> |
-                <a asp-controller="Category" asp-action="Delete" asp-route-CategoryId="@c.CategoryId"
-                   onclick="return confirm('Are you sure?')">Delete</a>
-            </td>
-        </tr>
-    }
-</table>
-
+<!-- Bottom Stats -->
+<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Categories</span>
+            <span class="stat-value">@Model.Count()</span>
+        </div>
+        <div class="stat-icon ewaste">
+            <i class="bi bi-tag"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Most Popular</span>
+            <span class="stat-value" style="color:#27ae60; font-size:1.2rem;">
+                @(Model.FirstOrDefault()?.Name ?? "N/A")
+            </span>
+        </div>
+        <div class="stat-icon recycled">
+            <i class="bi bi-star"></i>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Items</span>
+            <span class="stat-value">@ViewBag.TotalItems</span>
+        </div>
+        <div class="stat-icon users">
+            <i class="bi bi-recycle"></i>
+        </div>
+    </div>
+</div>
