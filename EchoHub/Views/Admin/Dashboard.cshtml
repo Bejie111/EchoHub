@@ -1,17 +1,231 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
-}
-@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<link rel="stylesheet" href="~/css/Admin.css" />
 
-<h1>Dashboard</h1>
-
-<div>
-    <p>Total Users: </p>
-    <p>Total E-Waste Items: </p>
-    <p>Items Recycled: </p>
-    <p>Items Disposed: </p>
+<!-- Header -->
+<div class="submit-header">
+    <h2>Admin Dashboard</h2>
+    <p>System overview and analytics.</p>
 </div>
 
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Users</span>
+            <span class="stat-value">@ViewBag.TotalUsers</span>
+            <span class="text-success small">
+                +@ViewBag.Percent.ToString("0.#")% from last month
+            </span>
+        </div>
+        <div class="stat-icon users">
+            <i class="bi bi-people"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total E-Waste Items</span>
+            <span class="stat-value">@ViewBag.TotalItems</span>
+            <span class="text-success small">
+                +@ViewBag.Percent.ToString("0.#")% from last month
+            </span>
+
+        </div>
+        <div class="stat-icon ewaste">
+            <i class="bi bi-recycle"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Items Recycled</span>
+            <span class="stat-value">@ViewBag.TotalRecycled</span>
+            <span class="text-success small">
+                +@ViewBag.Percent.ToString("0.#")% success rate
+            </span>
+
+        </div>
+        <div class="stat-icon recycled">
+            <i class="bi bi-arrow-repeat"></i>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Items Disposed</span>
+            <span class="stat-value">@ViewBag.TotalDisposed</span>
+            <span class="text-success small">
+                +@ViewBag.Percent.ToString("0.#")% of total
+            </span>
+
+        </div>
+        <div class="stat-icon disposed">
+            <i class="bi bi-trash"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="charts-grid">
+
+    <!-- Line Chart -->
+    <div class="section-card">
+        <div class="section-title">Monthly Submissions Trend</div>
+        <canvas id="lineChart"></canvas>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="section-card">
+        <div class="section-title">E-Waste by Category</div>
+        <canvas id="pieChart"></canvas>
+    </div>
+
+</div>
+
+<!-- Bar Chart -->
+<div class="section-card">
+    <div class="section-title">Recycling Performance</div>
+    <canvas id="barChart"></canvas>
+</div>
+
+<!-- Recent User Registrations -->
+<div class="section-card">
+    <div class="section-title">Recent User Registrations</div>
+    <div class="activity-list">
+
+        @if (ViewBag.RecentUsers != null)
+        {
+            @foreach (var user in ViewBag.RecentUsers)
+            {
+                <div class="activity-item">
+                    <div class="activity-info">
+                        <span class="activity-name">@user.Name</span>
+                        <span class="activity-sub">@user.Email</span>
+                    </div>
+                    <div class="activity-right">
+                        <span class="status-badge @(user.Role?.ToLower() == "staff" ? "collected" : "recycled")">
+                            @user.Role
+                        </span>
+                        <span class="activity-time">
+                            @user.Id
+                        </span>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state text-center">
+                <i class="bi bi-people"></i>
+                <p>No recent registrations.</p>
+            </div>
+        }
+
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // LINE CHART
+    new Chart(document.getElementById('lineChart'), {
+        type: 'line',
+        data: {
+            labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+            datasets: [
+                {
+                    label: 'Submissions',
+                    data: @Html.Raw(ViewBag.MonthlySubmissions ?? "[0,0,0,0,0,0]"),
+                    borderColor: '#6c757d',
+                    backgroundColor: 'rgba(108,117,125,0.08)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4
+                },
+                {
+                    label: 'Recycled',
+                    data: @Html.Raw(ViewBag.MonthlyRecycled ?? "[0,0,0,0,0,0]"),
+                    borderColor: '#27ae60',
+                    backgroundColor: 'rgba(39,174,96,0.08)',
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 4
+                },
+                {
+                    label: 'Disposed',
+                    data: @Html.Raw(ViewBag.MonthlyDisposed ?? "[0,0,0,0,0,0]"),
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231,76,60,0.08)',
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f3f5' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // PIE CHART
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(ViewBag.CategoryLabels ?? "['Laptops','Phones','Monitors','Printers','Others']"),
+            datasets: [{
+                data: @Html.Raw(ViewBag.CategoryData ?? "[30,22,20,15,13]"),
+                backgroundColor: [
+                    '#27ae60',
+                    '#2ecc71',
+                    '#82e0aa',
+                    '#a9dfbf',
+                    '#d5f5e3'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'right' } }
+        }
+    });
+
+    // BAR CHART
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+            datasets: [
+                {
+                    label: 'Recycled',
+                    data: @Html.Raw(ViewBag.MonthlyRecycled ?? "[0,0,0,0,0,0]"),
+                    backgroundColor: '#27ae60',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Disposed',
+                    data: @Html.Raw(ViewBag.MonthlyDisposed ?? "[0,0,0,0,0,0]"),
+                    backgroundColor: '#e74c3c',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f3f5' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+</script>
