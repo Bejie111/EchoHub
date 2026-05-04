@@ -13,9 +13,6 @@
 <div class="section-card">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <span class="section-title mb-0">All Users</span>
-        <a href="/Admin/CreateUser" class="btn-add">
-            <i class="bi bi-plus"></i> Add User
-        </a>
     </div>
 
     <!-- Search -->
@@ -59,8 +56,8 @@
                             <td>@user.Email</td>
                             <td>
                                 <span class="role-badge @roleClass">@user.Role</span>
-                            </td>
-                            <td>@user.Id</td>
+                            </td>   
+                            <td>@user.CreatedAt.ToString("yyyy-MM-dd")</td>
                             <td>0</td>
                             <td>
                                 <div class="action-btns">

@@ -1,18 +1,13 @@
-﻿
-@{
-    ViewData["Title"] = "_AdminLayout";
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="~/css/admin.css" />
+    <link rel="stylesheet" href="~/css/Admin.css" />
 </head>
 <body>
 
     <div class="sidebar">
         <h2>E-Waste Admin</h2>
-
         <a href="/Admin/Dashboard">Dashboard</a>
         <a href="/Admin/Users">User Management</a>
         <a href="/Category/Index">Category Management</a>
@@ -23,6 +18,8 @@
     <div class="main-content">
         @RenderBody()
     </div>
+
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>
