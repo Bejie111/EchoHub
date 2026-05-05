@@ -27,7 +27,6 @@ namespace EchoHub.Controllers
             var collections = _context.Collections
                 .Include(c => c.EwasteItem)
                     .ThenInclude(e => e.User)
-                .Include(c => c.Staff)
                 .OrderByDescending(c => c.ScheduleDate)
                 .ToList();
             return View(collections);
@@ -41,16 +40,13 @@ namespace EchoHub.Controllers
             if (item == null)
                 return NotFound();
 
-            ViewBag.EwasteId = id;
+            var model = new Collection
+            {
+                EwasteId = id 
+            };
+
             ViewBag.ItemName = item.Item_Name;
-
-            ViewBag.StaffList = new SelectList(
-                _context.Users.Where(u => u.Role == "Staff"),
-                "Id",
-                "Name"
-            );
-
-            return View();
+            return View(model);
         }
 
         // POST: Assign Collection
@@ -66,13 +62,10 @@ namespace EchoHub.Controllers
                 _context.SaveChanges();
 
                 return RedirectToAction("Collect");
-            }
 
-            ViewBag.StaffList = new SelectList(
-                _context.Users.Where(u => u.Role == "Staff"),
-                "Id",
-                "Name"
-            );
+            }
+            var item = _context.EwasteItems.Find(collection.EwasteId);
+            ViewBag.ItemName = item?.Item_Name;
 
             return View(collection);
         }

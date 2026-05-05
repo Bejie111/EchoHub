@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
 
+<div asp-validation-summary="All" class="text-danger"></div>
 <div class="assign-page">
 
     <!-- Header -->
@@ -21,7 +22,7 @@
             @Html.AntiForgeryToken()
 
             <!-- Hidden -->
-            <input type="hidden" asp-for="EwasteId" value="@ViewBag.EwasteId" />
+            <input type="hidden" asp-for="EwasteId" />
 
             <!-- Item Name -->
             <div class="form-group">

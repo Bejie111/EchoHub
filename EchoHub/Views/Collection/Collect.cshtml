@@ -88,11 +88,10 @@
 
                         <div class="left-info">
                             <h5>
-                                @item.ScheduleDate.ToString("yyyy-MM-dd")
+                                @(item.ScheduleDate.HasValue ? item.ScheduleDate.Value.ToString("yyyy-MM-dd") : "N/A")
                             </h5>
 
                             <span>
-                                @item.Staff?.Name •
                                 @item.EwasteItem?.Item_Name
                             </span>
                         </div>
@@ -137,7 +136,7 @@
 
         <div class="stat-card">
             <small>Today's Collections</small>
-            <h2>@Model.Count(x => x.ScheduleDate.Date == DateTime.Today)</h2>
+            <h2>@Model.Count(x => x.ScheduleDate.HasValue && x.ScheduleDate.Value.Date == DateTime.Today)</h2>
             <span>Scheduled Today</span>
         </div>
 
