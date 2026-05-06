@@ -1,0 +1,95 @@
+﻿@model IEnumerable<EchoHub.Models.EwasteItem>
+
+@{
+    ViewData["Title"] = "Recycling Tracking";
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/recycling.css" />
+<div class="recycling-page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Recycling Tracking</h2>
+        <p>Track and manage the recycling process for collected items.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <p>Ready for Recycling</p>
+            <h3 class="blue">@ViewBag.ReadyCount</h3>
+        </div>
+        <div class="stat-card">
+            <p>Recycled</p>
+            <h3 class="green">@ViewBag.RecycledCount</h3>
+        </div>
+        <div class="stat-card">
+            <p>Disposed</p>
+            <h3 class="red">@ViewBag.DisposedCount</h3>
+        </div>
+    </div>
+
+    <!-- READY SECTION -->
+    <div class="card">
+
+        <!-- HEADER WITH BUTTON -->
+        <div class="card-header d-flex justify-between align-center">
+            <h4>Items Ready for Recycling</h4>
+
+            <a asp-action="Record" class="btn-green">
+                Record Recycling
+            </a>
+        </div>
+
+        @if (ViewBag.ReadyItems != null && ViewBag.ReadyItems.Count > 0)
+        {
+            foreach (var item in ViewBag.ReadyItems)
+            {
+                <div class="list-item">
+                    <div>
+                        <strong>@item.Item_Name</strong>
+                        <p>@item.Category • Collected on @item.DateSubmitted.ToShortDateString()</p>
+                    </div>
+
+                    <span class="badge blue">Ready for Recycling</span>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No items ready.</p>
+        }
+
+    </div>
+
+    <!-- RECENT RECORDS -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Recent Recycling Records</h4>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="list-item">
+                <div>
+                    <strong>@item.Item_Name</strong>
+                    <p>@item.Category • @item.DateSubmitted.ToShortDateString()</p>
+                </div>
+
+                <div>
+                    @if (item.Status == "Recycled")
+                    {
+                        <span class="badge green">Recycled</span>
+                    }
+                    else
+                    {
+                        <span class="badge red">Disposed</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+

@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Record Recycling";
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/recycling.css" />
+
+<div class="recycling-page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Record Recycling</h2>
+        <p>Select item and record its recycling result.</p>
+    </div>
+
+    <div class="card form-card">
+
+        <form asp-action="Record" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- SELECT ITEM -->
+            <div class="form-group">
+                <label>Select Item</label>
+
+                <select name="EwasteId" class="form-control">
+                    <option value="">-- Choose Item --</option>
+                    @foreach (var item in ViewBag.ItemList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- SELECT STATUS -->
+            <div class="form-group">
+                <label>Status</label>
+
+                <select name="Status" class="form-control">
+                    <option value="">-- Choose Status --</option>
+                    <option value="Recycled">Recycled</option>
+                    <option value="Disposed">Disposed</option>
+                </select>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="btn-row">
+                <button type="submit" class="btn-green">
+                    Save Record
+                </button>
+
+                <a asp-action="Dashboard" class="btn-light">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
