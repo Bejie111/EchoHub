@@ -41,8 +41,6 @@
                 <h5 class="fw-bold">Register</h5>
                 <p class="text-muted small">Create a new account</p>
 
-                <div asp-validation-summary="All" class="text-danger small"></div>
-
                 <form asp-action="Register" asp-controller="Account" method="post">
                     @Html.AntiForgeryToken()
 
