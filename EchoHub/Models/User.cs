@@ -16,6 +16,9 @@ namespace EchoHub.Models
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Phone Number is Required")]
+        public string PhoneNumber { get; set; }
+
         //Validation: Ensures the user provide a password
         [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; }
