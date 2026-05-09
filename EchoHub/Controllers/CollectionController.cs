@@ -1,7 +1,6 @@
 ﻿using EchoHub.Data;
 using EchoHub.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace EchoHub.Controllers
