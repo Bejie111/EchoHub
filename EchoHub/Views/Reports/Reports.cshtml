@@ -1,0 +1,162 @@
+﻿@model EchoHub.ViewModels.ReportsViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="reports-page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>Reports</h2>
+        <p>Generate and export system reports.</p>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="card">
+        <div class="filter-header">
+            <h4>Report Filters</h4>
+
+            <div class="export-buttons">
+                <button class="btn-red">PDF</button>
+                <button class="btn-green">Excel</button>
+            </div>
+        </div>
+
+        <div class="filters-grid">
+
+            <div class="form-group">
+                <label>Report Type</label>
+
+                <select class="form-control">
+                    <option>E-Waste Submission</option>
+                    <option>Recycling Report</option>
+                    <option>User Statistics</option>
+                    <option>Category Analysis</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Time Range</label>
+
+                <select class="form-control">
+                    <option>Last Week</option>
+                    <option>This Month</option>
+                    <option>Last Month</option>
+                    <option>Last 6 Months</option>
+                    <option>This Year</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="card">
+        <h4>Report Summary</h4>
+
+        <div class="summary-grid">
+
+            <div class="summary-card blue-bg">
+                <p>Total Submitted Items</p>
+                <h2>@Model.TotalSubmitted</h2>
+            </div>
+
+            <div class="summary-card green-bg">
+                <p>Items Recycled</p>
+                <h2>@Model.TotalRecycled</h2>
+            </div>
+
+            <div class="summary-card red-bg">
+                <p>Items Disposed</p>
+                <h2>@Model.TotalDisposed</h2>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MONTHLY STATS -->
+    <div class="card">
+
+        <h4>Monthly Statistics</h4>
+
+        @foreach (var item in Model.monthlystats)
+        {
+            <div class="monthly-item">
+
+                <div>
+                    <strong>@item.MonthName</strong>
+                    <p>Submissions</p>
+                    <h5>@item.Total</h5>
+                </div>
+
+                <div>
+                    <p>Recycled</p>
+                    <span class="green">@item.Recycled</span>
+                </div>
+
+                <div>
+                    <p>Disposed</p>
+                    <span class="red">@item.Disposed</span>
+                </div>
+
+                <div>
+                    <strong>@item.Total total</strong>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="card">
+
+        <h4>Category Breakdown</h4>
+
+        @foreach (var item in Model.categorystats)
+        {
+            <div class="category-item">
+
+                <div class="category-top">
+                    <span>@item.Category</span>
+                    <span>
+                        @item.Count items
+                        (@item.Percentage.ToString("0")%)
+                    </span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"
+                         style="width:@item.Percentage%">
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    <!-- USER ACTIVITY -->
+    <div class="card">
+
+        <h4>User Activity Report</h4>
+
+        <div class="summary-grid">
+
+            <div class="summary-card purple-bg">
+                <p>Active Users</p>
+                <h2>@Model.ActiveUsers</h2>
+            </div>
+
+            <div class="summary-card lightblue-bg">
+                <p>New Users This Month</p>
+                <h2>@Model.NewUsers</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
