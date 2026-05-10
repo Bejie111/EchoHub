@@ -14,11 +14,12 @@ namespace EchoHub.Controllers
             _context = context;
         }
 
-        // ── USERS ──
+        //USERS MANAGEMENT
         public IActionResult Users(string search)
         {
             var users = _context.Users.AsQueryable();
 
+            //SEARCH
             if (!string.IsNullOrEmpty(search))
             {
                 users = users.Where(u =>
@@ -26,15 +27,25 @@ namespace EchoHub.Controllers
                     u.Email.Contains(search));
             }
 
+            //SUBMISSION 
+            ViewBag.SubmissionCounts = _context.EwasteItems
+                .GroupBy(e => e.UserId)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Count()
+                );
+
             return View(users.ToList());
         }
 
+        //USER EDIT
         public IActionResult EditUser(int id)
         {
             var user = _context.Users.Find(id);
             return View(user);
         }
 
+        //USER UPDATE
         [HttpPost]
         public IActionResult EditUser(User updatedUser)
         {
@@ -51,7 +62,7 @@ namespace EchoHub.Controllers
 
             return RedirectToAction("Users");
         }
-
+        //USER DELETE
         public IActionResult DeleteUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -65,7 +76,7 @@ namespace EchoHub.Controllers
             return RedirectToAction("Users");
         }
 
-        // ── DASHBOARD ──
+        //DASHBOARD
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("Role") != "Admin")

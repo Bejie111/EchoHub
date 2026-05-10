@@ -58,7 +58,19 @@
                                 <span class="role-badge @roleClass">@user.Role</span>
                             </td>   
                             <td>@user.CreatedAt.ToString("yyyy-MM-dd")</td>
-                            <td>0</td>
+                            <td>
+                                @{
+                                    var counts = ViewBag.SubmissionCounts as Dictionary<int, int>;
+
+                                    var total = counts != null && counts.ContainsKey(user.Id)
+                                        ? counts[user.Id]
+                                        : 0;
+                                }
+
+                                <span class="submission-badge">
+                                    @total
+                                </span>
+                            </td>
                             <td>
                                 <div class="action-btns">
                                     <a href="/Admin/EditUser/@user.Id" class="btn-edit">
