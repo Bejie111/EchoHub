@@ -1,156 +1,131 @@
 ﻿@model IEnumerable<EchoHub.Models.EwasteItem>
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Staff Dashboard";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
 
-<link rel="stylesheet" href="~/css/staffdashboard.css" />
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<div class="container mt-4">
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-    <h2 class="mb-1"> Staff Dashboard</h2>
-    <p class="text-muted">Manage e-waste collection and recycling operation'</p>
+        <i class="bi bi-shield-check position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <!-- Cards -->
-    <div class="row g-3 mt-3">
-
-        <!-- TOTAL COLLECTED -->
-        <div class="col-md-4">
-            <div class="card text-center shadow-sm border-0">
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Total Collected Items
-                    </h6>
-
-                    <h3>
-                        @ViewBag.TotalCollected
-                    </h3>
-
+        <div class="position-relative">
+            <div class="d-flex align-items-center gap-3">
+                <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-clipboard-data text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Staff Dashboard</h2>
+                    <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Manage e-waste collection and recycling operations.
+                    </p>
                 </div>
             </div>
         </div>
-
-        <!-- READY FOR RECYCLING -->
-        <div class="col-md-4">
-            <div class="card text-center shadow-sm border-0">
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Items for Recycling
-                    </h6>
-
-                    <h3>
-                        @ViewBag.ReadyForRecycling
-                    </h3>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- DISPOSED -->
-        <div class="col-md-4">
-            <div class="card text-center shadow-sm border-0">
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Items Disposed
-                    </h6>
-
-                    <h3>
-                        @ViewBag.DisposedItems
-                    </h3>
-
-                </div>
-            </div>
-        </div>
-
     </div>
 
-        <!-- Quick Actions -->
-        <div class="card mt-4 shadow-sm border-0">
-            <div class="card-body">
-
-                <h6 class="mb-3 fw-bold">
-                    Quick Actions
-                </h6>
-
-                <a href="/Staff/Manage"
-                       class="btn btn-success btn-sm me-2">
-                    Manage E-Waste
-                </a>
-
-                <a href="/Collection/Collect"
-                       class="btn btn-success btn-sm me-2">
-                    View Collections
-                </a>
-
-                <a href="/Recycling/Dashboard"
-                       class="btn btn-success btn-sm">
-                    Recycling Tracking
-                </a>
-
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 border-start border-4 border-primary">
+                <span class="text-muted small fw-bold d-block mb-1">Total Collected Items</span>
+                <h2 class="fw-bold mb-0">@ViewBag.TotalCollected</h2>
             </div>
         </div>
-        <!-- Recent Activity -->
-        <div class="card mt-4 shadow-sm border-0">
-            <div class="card-body">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 border-start border-4 border-success">
+                <span class="text-muted small fw-bold d-block mb-1">Items for Recycling</span>
+                <h2 class="fw-bold mb-0">@ViewBag.ReadyForRecycling</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 border-start border-4 border-danger">
+                <span class="text-muted small fw-bold d-block mb-1">Items Disposed</span>
+                <h2 class="fw-bold mb-0">@ViewBag.DisposedItems</h2>
+            </div>
+        </div>
+    </div>
 
-                <h6 class="fw-bold mb-3">Recent Activity</h6>
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Quick Actions</h5>
+        <div class="d-flex flex-wrap gap-3">
+            <a href="/Staff/Manage" class="btn btn-success rounded-3 fw-bold shadow-sm px-4 py-2" style="background-color: #27ae60; border: none;">
+                <i class="bi bi-box-seam me-2"></i> Manage E-Waste
+            </a>
+            <a href="/Collection/Collect" class="btn btn-success rounded-3 fw-bold shadow-sm px-4 py-2" style="background-color: #1e8449; border: none;">
+                <i class="bi bi-truck me-2"></i> View Collections
+            </a>
+            <a href="/Recycling/Dashboard" class="btn btn-success rounded-3 fw-bold shadow-sm px-4 py-2" style="background-color: #145a32; border: none;">
+                <i class="bi bi-arrow-repeat me-2"></i> Recycling Tracking
+            </a>
+        </div>
+    </div>
 
-                @if (Model != null && Model.Any())
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Recent Activity</h5>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="list-group list-group-flush">
+                @foreach (var item in Model.Take(5))
                 {
-                    @foreach (var item in Model.Take(5))
+                    var statusClass = item.Status?.ToLower() switch
                     {
-                        var statusClass = item.Status?.ToLower() switch
-                        {
                                     "recycled" => "success",
                                     "collected" => "primary",
                                     "pending" => "warning",
                                     "disposed" => "danger",
-                            _ => "secondary"
-                        };
+                        _ => "secondary"
+                    };
 
-                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div class="list-group-item px-0 py-3 border-0 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-@statusClass bg-opacity-10 text-@statusClass d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-dot" style="font-size: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">@item.Item_Name</h6>
+                                    <small class="text-muted">
+                                        @if (item.Status == "Pending")
+                                        {
+                                            <text>New e-waste submitted</text>
+                                        }
+                                        else if (item.Status == "Collected")
+                                        {
 
-                            <div>
-                                <span class="badge bg-@statusClass me-2">
-                                    @item.Status
-                                </span>
+                                            <text>Item collected by staff</text>
+                                        }
+                                        else if (item.Status == "Recycled")
+                                        {
 
-                                <span class="fw-semibold">@item.Item_Name</span><br />
-                                <small class="text-muted">Submitted item</small>
+                                            <text>Item successfully recycled</text>
+                                        }
+                                        else if (item.Status == "Disposed")
+                                        {
+
+                                            <text>Item disposed properly</text>
+                                        }
+                                    </small>
+                                </div>
                             </div>
-
-                        <small class="text-muted">
-
-                            @if (item.Status == "Pending")
-                            {
-                                <text>New e-waste submitted</text>
-                            }
-                            else if (item.Status == "Collected")
-                            {
-                                <text>Item collected by staff</text>
-                            }
-                            else if (item.Status == "Recycled")
-                            {
-                                <text>Item successfully recycled</text>
-                            }
-                            else if (item.Status == "Disposed")
-                            {
-                                <text>Item disposed properly</text>
-                            }
-
-                        </small>
-
+                            <span class="badge bg-@statusClass bg-opacity-10 text-@statusClass px-3 py-2 rounded-pill fw-bold" style="font-size: 0.75rem;">
+                                @item.Status
+                            </span>
                         </div>
-                    }
+                    </div>
                 }
-                else
-                {
-                    <p class="text-muted">No recent activity.</p>
-                }
-
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-clock-history text-muted opacity-25" style="font-size: 3rem;"></i>
+                <p class="text-muted mt-2 mb-0">No recent activity to display.</p>
+            </div>
+        }
+    </div>
+</div>

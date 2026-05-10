@@ -6,161 +6,142 @@
 
     var pending = ViewBag.PendingItems as List<EchoHub.Models.EwasteItem>;
 }
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<div class="page-wrapper">
+<div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+     style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-    <!-- Header -->
-    <div class="page-header">
-        <h2>Collection Management</h2>
-        <p>Assign and track e-waste collection schedules.</p>
+    <i class="bi bi-shield-check position-absolute text-success opacity-10"
+       style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
+
+    <div class="position-relative">
+        <div class="d-flex align-items-center gap-3">
+            <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-clipboard-data text-white fs-4"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Collections</h2>
+                <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Assign and track e-waste collection schedules efficiently.
+                </p>
+            </div>
+        </div>
     </div>
-
-    <!-- ================================ -->
-    <!-- Pending Collections Card -->
-    <!-- ================================ -->
-    <div class="card-box">
-
-        <div class="card-top">
-            <h4>Pending Collections</h4>
-
-            <a asp-action="Collect" class="btn-green">
-                Refresh
-            </a>
+</div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card border-start border-success border-4 shadow-sm h-100">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Today's Collections</small>
+                <h2 class="fw-bold my-1">@Model.Count(x => x.ScheduleDate.HasValue && x.ScheduleDate.Value.Date == DateTime.Today)</h2>
+                <span class="text-secondary small">Scheduled Today</span>
+            </div>
         </div>
 
-        <div class="collection-list">
+        <div class="col-md-4">
+            <div class="stat-card border-start border-primary border-4 shadow-sm h-100">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">This Week</small>
+                <h2 class="fw-bold my-1">@Model.Count(x => x.ScheduleDate >= DateTime.Today.AddDays(-7))</h2>
+                <span class="text-secondary small">Total This Week</span>
+            </div>
+        </div>
 
-            @if (pending != null && pending.Count > 0)
-            {
-                foreach (var item in pending)
-                {
-                    <div class="collection-row">
-
-                        <div class="left-info">
-                            <h5>@item.Item_Name</h5>
-                            <span>
-                                @item.Category •
-                                @item.User?.Name
-                            </span>
-                        </div>
-
-                        <div class="right-action">
-
-                            <span class="badge-yellow">Pending</span>
-
-                            <a asp-controller="Collection"
-                                   asp-action="Assign"
-                                   asp-route-id="@item.EwasteId"
-                                   class="btn-green btn-sm">
-                                Schedule Collection
-                            </a>
-
-                        </div>
-
-                    </div>
+        <div class="col-md-4">
+            <div class="stat-card border-start border-info border-4 shadow-sm h-100">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Success Rate</small>
+                @{
+                    var total = Model.Count();
+                    var done = Model.Count(x => x.Status == "Completed");
+                    var rate = total == 0 ? 0 : (done * 100) / total;
                 }
-            }
-            else
-            {
-                <div class="empty-box">
-                    No Pending Collections
+                <h2 class="fw-bold my-1">@rate%</h2>
+                <span class="text-secondary small">On-time Collections</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+            <div class="card-box shadow-sm border-0 h-100">
+                <div class="p-3 border-bottom d-flex align-items-center bg-light rounded-top-4">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-hourglass-split me-2 text-warning"></i>Pending Requests</h5>
                 </div>
-            }
-
-        </div>
-
-    </div>
-
-    <!-- ================================ -->
-    <!-- Scheduled Collections -->
-    <!-- ================================ -->
-    <div class="card-box mt-4">
-
-        <h4>Scheduled Collections</h4>
-
-        <div class="collection-list mt-3">
-
-            @if (Model.Any())
-            {
-                foreach (var item in Model)
-                {
-                    <div class="collection-row">
-
-                        <div class="left-info">
-                            <h5>
-                                @(item.ScheduleDate.HasValue ? item.ScheduleDate.Value.ToString("yyyy-MM-dd") : "N/A")
-                            </h5>
-
-                            <span>
-                                @item.EwasteItem?.Item_Name •
-                                @item.EwasteItem?.User.Name •
-                                @item.EwasteItem?.Address
-                            </span>
+                <div class="p-3">
+                    @if (pending != null && pending.Count > 0)
+                    {
+                        foreach (var item in pending)
+                        {
+                            <div class="d-flex justify-content-between align-items-center p-3 mb-2 border rounded-3 bg-white shadow-sm-hover">
+                                <div>
+                                    <h6 class="fw-bold mb-1">@item.Item_Name</h6>
+                                    <small class="text-muted">@item.Category • @item.User?.Name</small>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 mb-2 d-inline-block" style="font-size: 0.7rem;">Pending</span>
+                                    <br />
+                                    <a asp-controller="Collection" asp-action="Assign" asp-route-id="@item.EwasteId" class="btn btn-sm btn-green rounded-pill px-3 shadow-sm">
+                                        Schedule
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-check2-circle text-muted display-4"></i>
+                            <p class="text-muted mt-2">No Pending Collections</p>
                         </div>
-
-                        <div class="right-action">
-
-                            @if (item.Status == "Scheduled")
-                            {
-                                <span class="badge-blue">Scheduled</span>
-
-                                <a asp-action="MarkCollected"
-                                       asp-route-id="@item.CollectionId"
-                                       class="btn-primary btn-sm">
-                                    Mark Collected
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="badge-green">Completed</span>
-                            }
-
-                        </div>
-
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="empty-box">
-                    No Scheduled Collections
+                    }
                 </div>
-            }
+            </div>
+        </div>
 
+        <div class="col-lg-6">
+            <div class="card-box shadow-sm border-0 h-100">
+                <div class="p-3 border-bottom d-flex align-items-center bg-light rounded-top-4">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-calendar-check me-2 text-primary"></i>Scheduled Task</h5>
+                </div>
+                <div class="p-3">
+                    @if (Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="d-flex justify-content-between align-items-center p-3 mb-2 border rounded-3 bg-white">
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-primary">
+                                        <i class="bi bi-calendar-event me-2"></i>@(item.ScheduleDate.HasValue? item.ScheduleDate.Value.ToString("MMM dd, yyyy") : "N/A")
+                                    </h6>
+                                    <small class="text-muted d-block">@item.EwasteItem?.Item_Name • @item.EwasteItem?.User.Name</small>
+                                    <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>@item.EwasteItem?.Address</small>
+                                </div>
+                                <div class="text-end">
+                                    @if (item.Status == "Scheduled")
+                                    {
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 mb-2 d-inline-block" style="font-size: 0.7rem;">Scheduled</span>
+                                        <br />
+                                        <a asp-action="MarkCollected" asp-route-id="@item.CollectionId" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm">
+                                            Mark Done
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 d-inline-block" style="font-size: 0.7rem;">Completed</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-calendar-x text-muted display-4"></i>
+                            <p class="text-muted mt-2">No Scheduled Collections</p>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
 
     </div>
-
-    <!-- ================================ -->
-    <!-- Bottom Stats -->
-    <!-- ================================ -->
-    <div class="stats-grid">
-
-        <div class="stat-card">
-            <small>Today's Collections</small>
-            <h2>@Model.Count(x => x.ScheduleDate.HasValue && x.ScheduleDate.Value.Date == DateTime.Today)</h2>
-            <span>Scheduled Today</span>
-        </div>
-
-        <div class="stat-card">
-            <small>This Week</small>
-            <h2>@Model.Count(x => x.ScheduleDate >= DateTime.Today.AddDays(-7))</h2>
-            <span>Total This Week</span>
-        </div>
-
-        <div class="stat-card">
-            <small>Success Rate</small>
-
-            @{
-                var total = Model.Count();
-                var done = Model.Count(x => x.Status == "Completed");
-                var rate = total == 0 ? 0 : (done * 100) / total;
-            }
-
-            <h2>@rate%</h2>
-            <span>On-time Collections</span>
-        </div>
-
-    </div>
-
 </div>

@@ -1,36 +1,86 @@
-﻿
+﻿@model List<EchoHub.Models.EwasteItem>
+
 @{
-    ViewData["Title"] = "Manage";
-}
-@{
+    ViewData["Title"] = "Manage E-Waste";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
 
-@model List<EchoHub.Models.EwasteItem>
+<div class="container-fluid py-4 bg-light min-vh-100">
+
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
+
+        <i class="bi bi-shield-check position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
+
+        <div class="position-relative">
+            <div class="d-flex align-items-center gap-3">
+                <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-clipboard-data text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Manage E-Waste</h2>
+                    <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Manage e-waste collection and recycling operations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<h2>Manage E-Waste</h2>
-
-<table border="1">
-    <tr>
-        <th>Item Name</th>
-        <th>Category</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Action</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Item_Name</td>
-            <td>@item.Category</td>
-            <td>@item.Status</td>
-            <td>@item.DateSubmitted</td>
-            <td>
-                <a href="/Staff/ViewItem/@item.EwasteId">View</a>
-            </td>
-        </tr>
-    }
-</table>
-
+    <div class="card-box shadow-sm rounded-4 border-0">
+        <div class="p-3 border-bottom d-flex align-items-center justify-content-between bg-light rounded-top-4">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-list-ul me-2 text-success"></i>Item Inventory</h5>
+            <div class="input-group input-group-sm w-25 shadow-sm">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control border-start-0" placeholder="Search item...">
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-white">
+                    <tr>
+                        <th class="ps-4 py-3 text-uppercase small fw-bold text-secondary">Item Name</th>
+                        <th class="py-3 text-uppercase small fw-bold text-secondary">Category</th>
+                        <th class="py-3 text-uppercase small fw-bold text-secondary">Status</th>
+                        <th class="py-3 text-uppercase small fw-bold text-secondary">Date Submitted</th>
+                        <th class="pe-4 py-3 text-uppercase small fw-bold text-secondary text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-success-subtle p-2 rounded-3 me-3">
+                                        <i class="bi bi-cpu text-success"></i>
+                                    </div>
+                                    <span class="fw-semibold">@item.Item_Name</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge-green">@item.Category</span>
+                            </td>
+                            <td>
+                                @{
+                                    var badgeColor = item.Status == "Pending" ? "bg-warning-subtle text-warning border-warning" : "bg-success-subtle text-success border-success";
+                                }
+                                <span class="badge @badgeColor px-3 py-2 rounded-pill fw-bold border" style="font-size: 0.75rem;">
+                                    <i class="bi bi-dot"></i> @item.Status
+                                </span>
+                            </td>
+                            <td class="text-muted small">@item.DateSubmitted.ToString("MMMM dd, yyyy")</td>
+                            <td class="pe-4 text-end">
+                                <a href="/Staff/ViewItem/@item.EwasteId" class="btn btn-sm btn-outline-success rounded-pill px-3 shadow-sm">
+                                    <i class="bi bi-eye-fill me-1"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

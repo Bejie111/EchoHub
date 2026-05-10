@@ -4,92 +4,120 @@
     ViewData["Title"] = "Recycling Tracking";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<link rel="stylesheet" href="~/css/recycling.css" />
-<div class="recycling-page">
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-    <!-- HEADER -->
-    <div class="page-header">
-        <h2>Recycling Tracking</h2>
-        <p>Track and manage the recycling process for collected items.</p>
-    </div>
+        <i class="bi bi-shield-check position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <!-- STATS -->
-    <div class="stats-container">
-        <div class="stat-card">
-            <p>Ready for Recycling</p>
-            <h3 class="blue">@ViewBag.ReadyCount</h3>
-        </div>
-        <div class="stat-card">
-            <p>Recycled</p>
-            <h3 class="green">@ViewBag.RecycledCount</h3>
-        </div>
-        <div class="stat-card">
-            <p>Disposed</p>
-            <h3 class="red">@ViewBag.DisposedCount</h3>
-        </div>
-    </div>
-
-    <!-- READY SECTION -->
-    <div class="card">
-
-        <!-- HEADER WITH BUTTON -->
-        <div class="card-header d-flex justify-between align-center">
-            <h4>Items Ready for Recycling</h4>
-
-            <a asp-action="Record" class="btn-green">
-                Record Recycling
-            </a>
-        </div>
-
-        @if (ViewBag.ReadyItems != null && ViewBag.ReadyItems.Count > 0)
-        {
-            foreach (var item in ViewBag.ReadyItems)
-            {
-                <div class="list-item">
-                    <div>
-                        <strong>@item.Item_Name</strong>
-                        <p>@item.Category • Collected on @item.DateSubmitted.ToShortDateString()</p>
-                    </div>
-
-                    <span class="badge blue">Ready for Recycling</span>
+        <div class="position-relative">
+            <div class="d-flex align-items-center gap-3">
+                <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-clipboard-data text-white fs-4"></i>
                 </div>
-            }
-        }
-        else
-        {
-            <p>No items ready.</p>
-        }
-
+                <div>
+                    <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Recycling Tracking</h2>
+                    <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Track and manage the recycling process for collected items.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- RECENT RECORDS -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Recent Recycling Records</h4>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card border-start border-primary border-4 shadow-sm h-100 bg-white p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Ready for Recycling</small>
+                <h2 class="fw-bold my-1 text-primary">@ViewBag.ReadyCount</h2>
+                <span class="text-secondary small">Pending Process</span>
+            </div>
         </div>
 
-        @foreach (var item in Model)
-        {
-            <div class="list-item">
-                <div>
-                    <strong>@item.Item_Name</strong>
-                    <p>@item.Category • @item.DateSubmitted.ToShortDateString()</p>
-                </div>
+        <div class="col-md-4">
+            <div class="stat-card border-start border-success border-4 shadow-sm h-100 bg-white p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Recycled</small>
+                <h2 class="fw-bold my-1 text-success">@ViewBag.RecycledCount</h2>
+                <span class="text-secondary small">Successfully Processed</span>
+            </div>
+        </div>
 
-                <div>
-                    @if (item.Status == "Recycled")
+        <div class="col-md-4">
+            <div class="stat-card border-start border-danger border-4 shadow-sm h-100 bg-white p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Disposed</small>
+                <h2 class="fw-bold my-1 text-danger">@ViewBag.DisposedCount</h2>
+                <span class="text-secondary small">Items Disposed</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center rounded-top-4">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-box-seam me-2 text-success"></i>Items Ready for Recycling</h5>
+                </div>
+                <a asp-action="Record" class="btn btn-green shadow-sm px-4 rounded-pill">
+                    <i class="bi bi-plus-circle me-2"></i> Record Recycling
+                </a>
+                <div class="card-body p-0">
+                    @if (ViewBag.ReadyItems != null && ViewBag.ReadyItems.Count > 0)
                     {
-                        <span class="badge green">Recycled</span>
+                        foreach (var item in ViewBag.ReadyItems)
+                        {
+                            <div class="d-flex justify-content-between align-items-center p-3 border-bottom mx-2">
+                                <div>
+                                    <h6 class="fw-bold mb-1">@item.Item_Name</h6>
+                                    <small class="text-muted">@item.Category • Collected on @item.DateSubmitted.ToShortDateString()</small>
+                                </div>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">
+                                    Ready for Recycling
+                                </span>
+                            </div>
+                        }
                     }
                     else
                     {
-                        <span class="badge red">Disposed</span>
+                        <div class="text-center py-5">
+                            <i class="bi bi-clipboard-check text-muted display-4"></i>
+                            <p class="text-muted mt-2">No items ready for processing.</p>
+                        </div>
                     }
                 </div>
             </div>
-        }
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white py-3 border-bottom rounded-top-4">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Recycling Records</h5>
+                </div>
+                <div class="card-body p-0">
+                    @foreach (var item in Model)
+                    {
+                        <div class="d-flex justify-content-between align-items-center p-3 border-bottom mx-2">
+                            <div>
+                                <h6 class="fw-bold mb-1">@item.Item_Name</h6>
+                                <small class="text-muted">@item.Category • @item.DateSubmitted.ToShortDateString()</small>
+                            </div>
+                            <div>
+                                @if (item.Status == "Recycled")
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
+                                        Recycled
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2">
+                                        Disposed
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
-
