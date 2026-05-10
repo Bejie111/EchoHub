@@ -44,14 +44,28 @@ namespace EchoHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
+                // CHECK DUPLICATE
+                bool exists = _context.Categories
+                    .Any(c => c.Name.ToLower() == category.Name.ToLower());
+
+                if (exists)
+                {
+                    ModelState.AddModelError("Name", "Category already exists.");
+                    return View(category);
+                }
+
                 _context.Categories.Add(category);
                 _context.SaveChanges();
+
+                TempData["Success"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }
+
             return View(category);
         }
 
@@ -63,17 +77,38 @@ namespace EchoHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Category category)
         {
-            var existing = _context.Categories.Find(category.CategoryId);
-
-            if (existing != null)
+            if (ModelState.IsValid)
             {
+                var existing = _context.Categories.Find(category.CategoryId);
+
+                if (existing == null)
+                {
+                    return NotFound();
+                }
+
+                // CHECK DUPLICATE
+                bool duplicate = _context.Categories.Any(c =>
+                    c.Name.ToLower() == category.Name.ToLower() &&
+                    c.CategoryId != category.CategoryId);
+
+                if (duplicate)
+                {
+                    ModelState.AddModelError("Name", "Category already exists.");
+                    return View(category);
+                }
+
                 existing.Name = category.Name;
+
                 _context.SaveChanges();
+
+                TempData["Success"] = "Category updated successfully!";
+                return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index");
+            return View(category);
         }
 
         // DELETE
