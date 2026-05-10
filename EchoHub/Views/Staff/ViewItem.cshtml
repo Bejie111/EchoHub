@@ -1,0 +1,95 @@
+﻿@model EchoHub.Models.EwasteItem
+
+@{
+    ViewData["Title"] = "View E-Waste Item";
+    Layout = "~/Views/Shared/_StaffLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/viewitem.css" />
+
+<div class="view-page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>View E-Waste Item</h2>
+    </div>
+
+    <!-- CARD -->
+    <div class="view-card">
+
+        <!-- IMAGE -->
+        <div class="image-section">
+
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="~/uploads/@Model.Image"
+                     alt="Item Image" />
+            }
+            else
+            {
+                <div class="no-image">
+                    No Image Available
+                </div>
+            }
+
+        </div>
+
+        <!-- DETAILS -->
+        <div class="details-section">
+
+            <div class="detail-group">
+                <label>Item Name</label>
+                <input type="text"
+                       value="@Model.Item_Name"
+                       readonly />
+            </div>
+
+            <div class="detail-group">
+                <label>Category</label>
+                <input type="text"
+                       value="@Model.Category"
+                       readonly />
+            </div>
+
+            <div class="detail-group">
+                <label>Status</label>
+                <input type="text"
+                       value="@Model.Status"
+                       readonly />
+            </div>
+
+            <div class="detail-group">
+                <label>Description</label>
+
+                <textarea readonly rows="5">
+                    @Model.Description
+                </textarea>
+            </div>
+
+            <div class="detail-group">
+                <label>Address</label>
+                <input type="text"
+                       value="@Model.Address"
+                       readonly />
+            </div>
+
+            <div class="detail-group">
+                <label>Submitted By</label>
+                <input type="text"
+                       value="@Model.User?.Name"
+                       readonly />
+            </div>
+
+            <div class="btn-row">
+                <a asp-action="Dashboard"
+                       class="btn-back">
+                    Back
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

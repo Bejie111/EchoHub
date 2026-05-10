@@ -1,6 +1,7 @@
 ﻿using EchoHub.Data;
 using EchoHub.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EchoHub.Controllers
 {
@@ -28,36 +29,18 @@ namespace EchoHub.Controllers
             return View(items);
         }
 
-        public IActionResult View(int Ewasiteid)
+        public IActionResult ViewItem(int id)
         {
-            var item = _context.EwasteItems.FirstOrDefault(x => x.EwasteId == Ewasiteid);
-            return View(item);
-        }
+            var item = _context.EwasteItems
+                .Include(e => e.User)
+                .FirstOrDefault(e => e.EwasteId == id);
 
-        public IActionResult Update(int EwasteId)
-        {
-            var item = _context.EwasteItems.Find(EwasteId);
-            return View(item);
-        }
-
-        [HttpPost]
-        public IActionResult Update(EwasteItem updated)
-        {
-            var item = _context.EwasteItems.Find(updated.EwasteId);
-
-            if (item != null)
+            if (item == null)
             {
-                item.Item_Name = updated.Item_Name;
-                item.Category = updated.Category;
-                item.Description = updated.Description;
-                item.Status = updated.Status;
+                return NotFound();
             }
 
-            _context.SaveChanges();
-
-            return RedirectToAction("Manage");
+            return View(item);
         }
-
-
     }
 }
