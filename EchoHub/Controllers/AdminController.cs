@@ -15,6 +15,8 @@ namespace EchoHub.Controllers
         }
 
         //USERS MANAGEMENT
+        [HttpGet]
+        [Route("Admin/Users")]
         public IActionResult Users(string search)
         {
             var users = _context.Users.AsQueryable();
@@ -39,6 +41,8 @@ namespace EchoHub.Controllers
         }
 
         //USER EDIT
+        [HttpGet]
+        [Route("Admin/Users/EditUsers/{id}")]
         public IActionResult EditUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -47,6 +51,7 @@ namespace EchoHub.Controllers
 
         //USER UPDATE
         [HttpPost]
+        [Route("Admin/Users/EditUsers/{id}")]
         public IActionResult EditUser(User updatedUser)
         {
             var user = _context.Users.Find(updatedUser.Id);
@@ -63,6 +68,8 @@ namespace EchoHub.Controllers
             return RedirectToAction("Users");
         }
         //USER DELETE
+        [HttpGet]
+        [Route("Admin/Users/DeleteUser/{id}")]
         public IActionResult DeleteUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -77,6 +84,8 @@ namespace EchoHub.Controllers
         }
 
         //DASHBOARD
+        [HttpGet]
+        [Route("Admin/Dashboard")]
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("Role") != "Admin")

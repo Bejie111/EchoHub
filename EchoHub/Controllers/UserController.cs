@@ -16,6 +16,8 @@ namespace EchoHub.Controllers
             _env = env;
         }
 
+        [HttpGet]
+        [Route("User/Dashboard")]
         public IActionResult Dashboard()
         {
            
@@ -34,6 +36,8 @@ namespace EchoHub.Controllers
             return View(submissions);
         }
 
+        [HttpGet]
+        [Route("User/Submit")]
         public IActionResult Submit()
         {
             ViewBag.Categories = _context.Categories.ToList();
@@ -41,6 +45,7 @@ namespace EchoHub.Controllers
         }
 
         [HttpPost]
+        [Route("User/Submit")]
         [ValidateAntiForgeryToken]
         public IActionResult Submit(EwasteItem item, IFormFile file)
         {
@@ -78,6 +83,8 @@ namespace EchoHub.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        [HttpGet]
+        [Route("User/MySubmission")]
         public IActionResult MySubmission(string search)
         {
             var sessionUserId = HttpContext.Session.GetString("UserId");
