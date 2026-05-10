@@ -1,20 +1,73 @@
 ﻿@model EchoHub.Models.Category
 
 @{
-    ViewData["Title"] = "Edit";
-}
-
-@{
+    ViewData["Title"] = "Edit Category";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit Category</h2>
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<form method="post">
-    <input type="hidden" asp-for="CategoryId" />
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-    <input asp-for="Name" />
-    <br />
+        <i class="bi bi-pencil-square position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <button type="submit">Update</button>
-</form>
+        <div class="position-relative d-flex align-items-center gap-3">
+            <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-pencil-fill text-white fs-4"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Edit Category</h2>
+                <p class="text-muted mb-0 small d-flex align-items-center">
+                    <i class="bi bi-info-circle me-1"></i> Modify the name or details of an existing category.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Update Category Information</h5>
+
+                <form asp-action="EditCategory" method="post">
+                    <input type="hidden" asp-for="CategoryId" />
+
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label fw-semibold text-secondary small uppercase">Category Name</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-tag-fill text-success"></i>
+                            </span>
+                            <input asp-for="Name" class="form-control border-start-0 shadow-none p-2"
+                                   placeholder="Update category name..." required />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <button type="submit" class="btn btn-success rounded-3 fw-bold shadow-sm px-4 py-2" style="background-color: #27ae60; border: none;">
+                            <i class="bi bi-save2 me-2"></i> Update Changes
+                        </button>
+                        <a asp-action="CategoryManagement" class="btn btn-outline-secondary rounded-3 px-4 py-2">
+                            Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <h5 class="fw-bold text-dark mb-3">System Note</h5>
+                <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background-color: #f8f9fa; border-left: 4px solid #6c757d;">
+                    <i class="bi bi-exclamation-triangle text-secondary fs-4"></i>
+                    <p class="text-muted small mb-0">
+                        Renaming a category will update all existing e-waste items associated with this label. Please ensure the new name is accurate before saving.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

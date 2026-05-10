@@ -4,130 +4,142 @@
     ViewData["Title"] = "Reports";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="reports-page">
+<div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+     style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-    <!-- HEADER -->
-    <div class="page-header">
-        <h2>Reports</h2>
-        <p>Generate and export system reports.</p>
-    </div>
+    <i class="bi bi-recycle position-absolute text-success opacity-10"
+       style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <!-- FILTERS -->
-    <div class="card">
-        <div class="filter-header">
-            <h4>Report Filters</h4>
-
-            <div class="export-buttons">
-                <button class="btn-red">PDF</button>
-                <button class="btn-green">Excel</button>
+    <div class="position-relative">
+        <div class="d-flex align-items-center gap-3">
+            <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-bar-chart-line-fill text-white fs-4"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Reports</h2>
+                <p class="text-muted mb-0 small d-flex align-items-center">
+                    <i class="bi bi-info-circle me-1"></i> Generate and export system analytics for the e-waste platform.
+                </p>
             </div>
         </div>
-    <!-- SUMMARY -->
-    <div class="card">
-        <h4>Report Summary</h4>
-
-        <div class="summary-grid">
-
-            <div class="summary-card blue-bg">
-                <p>Total Submitted Items</p>
-                <h2>@Model.TotalSubmitted</h2>
-            </div>
-
-            <div class="summary-card green-bg">
-                <p>Items Recycled</p>
-                <h2>@Model.TotalRecycled</h2>
-            </div>
-
-            <div class="summary-card red-bg">
-                <p>Items Disposed</p>
-                <h2>@Model.TotalDisposed</h2>
-            </div>
-
-        </div>
     </div>
-
-    <!-- MONTHLY STATS -->
-    <div class="card">
-
-        <h4>Monthly Statistics</h4>
-
-        @foreach (var item in Model.monthlystats)
-        {
-            <div class="monthly-item">
-
-                <div>
-                    <strong>@item.MonthName</strong>
-                    <p>Submissions</p>
-                    <h5>@item.Total</h5>
-                </div>
-
-                <div>
-                    <p>Recycled</p>
-                    <span class="green">@item.Recycled</span>
-                </div>
-
-                <div>
-                    <p>Disposed</p>
-                    <span class="red">@item.Disposed</span>
-                </div>
-
-                <div>
-                    <strong>@item.Total total</strong>
-                </div>
-
-            </div>
-        }
-
-    </div>
-
-    <!-- CATEGORY -->
-    <div class="card">
-
-        <h4>Category Breakdown</h4>
-
-        @foreach (var item in Model.categorystats)
-        {
-            <div class="category-item">
-
-                <div class="category-top">
-                    <span>@item.Category</span>
-                    <span>
-                        @item.Count items
-                        (@item.Percentage.ToString("0")%)
-                    </span>
-                </div>
-
-                <div class="progress-bar">
-                    <div class="progress-fill"
-                         style="width:@item.Percentage%">
-                    </div>
-                </div>
-
-            </div>
-        }
-
-    </div>
-
-    <!-- USER ACTIVITY -->
-    <div class="card">
-
-        <h4>User Activity Report</h4>
-
-        <div class="summary-grid">
-
-            <div class="summary-card purple-bg">
-                <p>Active Users</p>
-                <h2>@Model.ActiveUsers</h2>
-            </div>
-
-            <div class="summary-card lightblue-bg">
-                <p>New Users This Month</p>
-                <h2>@Model.NewUsers</h2>
-            </div>
-
-        </div>
-
-    </div>
-
 </div>
 
+<div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+        <h5 class="fw-bold text-dark mb-0">Report Summary</h5>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-danger btn-sm shadow-sm px-3 fw-bold d-flex align-items-center rounded-3">
+                <i class="bi bi-file-earmark-pdf-fill me-2"></i> PDF
+            </button>
+            <button class="btn btn-success btn-sm shadow-sm px-3 fw-bold d-flex align-items-center rounded-3" style="background-color: #27ae60; border: none;">
+                <i class="bi bi-file-earmark-excel-fill me-2"></i> EXCEL
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 shadow-sm border-start border-4 border-primary" style="background-color: #f0f7ff;">
+                <p class="text-primary fw-bold small mb-1 uppercase">Total Submitted Items</p>
+                <h2 class="fw-bold mb-0">@Model.TotalSubmitted</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 shadow-sm border-start border-4 border-success" style="background-color: #f0fff4;">
+                <p class="text-success fw-bold small mb-1 uppercase">Items Recycled</p>
+                <h2 class="fw-bold mb-0">@Model.TotalRecycled</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 shadow-sm border-start border-4 border-danger" style="background-color: #fff5f5;">
+                <p class="text-danger fw-bold small mb-1 uppercase">Items Disposed</p>
+                <h2 class="fw-bold mb-0">@Model.TotalDisposed</h2>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Monthly Statistics</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Month</th>
+                                <th class="text-center">Submissions</th>
+                                <th class="text-center text-success">Recycled</th>
+                                <th class="text-center text-danger">Disposed</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.monthlystats)
+                            {
+                                <tr>
+                                    <td><strong class="text-dark">@item.MonthName</strong></td>
+                                    <td class="text-center">@item.Total</td>
+                                    <td class="text-center text-success fw-bold">@item.Recycled</td>
+                                    <td class="text-center text-danger fw-bold">@item.Disposed</td>
+                                    <td class="text-end fw-bold">@item.Total items</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Category Breakdown</h5>
+                @foreach (var item in Model.categorystats)
+                {
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-semibold small">@item.Category</span>
+                            <span class="text-muted small">@item.Count (@item.Percentage.ToString("0")%)</span>
+                        </div>
+                        <div class="progress rounded-pill" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                 style="width: @item.Percentage%"
+                                 aria-valuenow="@item.Percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">User Activity Report</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 rounded-4 border" style="background-color: #f3f0ff;">
+                            <div class="p-3 rounded-3 bg-white shadow-sm me-3">
+                                <i class="bi bi-people text-primary fs-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-0">Active Users</p>
+                                <h4 class="fw-bold mb-0">@Model.ActiveUsers</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center p-3 rounded-4 border" style="background-color: #e0f2fe;">
+                            <div class="p-3 rounded-3 bg-white shadow-sm me-3">
+                                <i class="bi bi-person-plus text-info fs-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-0">New Users This Month</p>
+                                <h4 class="fw-bold mb-0">@Model.NewUsers</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

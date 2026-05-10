@@ -20,9 +20,8 @@ body {
     height: 100vh;
     overflow: hidden;
 }
-
 /* ══════════════════════════
-   SIDEBAR
+    SIDEBAR
 ══════════════════════════ */
 .sidebar {
     width: 210px;
@@ -38,7 +37,7 @@ body {
     z-index: 100;
 }
 
-/* Brand */
+/* Brand Section - Maintained from your original */
 .sidebar-brand {
     display: flex;
     align-items: center;
@@ -63,11 +62,6 @@ body {
         font-size: 18px;
     }
 
-.brand-text {
-    display: flex;
-    flex-direction: column;
-}
-
 .brand-name {
     font-size: 0.9rem;
     font-weight: 700;
@@ -75,17 +69,12 @@ body {
     line-height: 1.2;
 }
 
-.brand-sub {
-    font-size: 0.7rem;
-    color: #6c757d;
-}
-
-/* Nav Links */
+/* Nav Links - Modified for Shadows */
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    padding: 16px 10px;
-    gap: 4px;
+    padding: 16px 12px; /* Increased padding slightly for shadow room */
+    gap: 12px; /* Increased gap to prevent shadows from overlapping */
     flex: 1;
 }
 
@@ -93,77 +82,56 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 12px 14px;
+    border-radius: 10px;
     font-size: 0.85rem;
     font-weight: 500;
     color: #6c757d;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    background: #ffffff;
+    /* This creates the soft, eye-friendly shadow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
 }
 
     .nav-item i {
-        font-size: 1rem;
+        font-size: 1.1rem;
         flex-shrink: 0;
+        transition: color 0.3s ease;
     }
 
+    /* Hover State - Interactive Green */
     .nav-item:hover {
-        background: #f8f9fa;
-        color: #1a1a2e;
+        background: #f0fff4; /* Very soft green tint */
+        color: #27ae60;
+        transform: translateY(-2px); /* Subtle lift */
+        box-shadow: 0 4px 12px rgba(39, 174, 96, 0.12); /* Green-tinted shadow */
     }
 
+    /* Active State */
     .nav-item.active {
         background: #eafaf1;
         color: #27ae60;
         font-weight: 600;
+        border-left: 4px solid #27ae60; /* Highlight bar */
+        box-shadow: 0 4px 10px rgba(39, 174, 96, 0.15);
     }
 
         .nav-item.active i {
             color: #27ae60;
         }
 
-/* Sidebar Footer */
-.sidebar-footer {
-    padding: 16px;
-    border-top: 1px solid #f1f3f5;
+/* Logout Specific (Red Theme) */
+.logout-item {
+    color: #dc3545 !important;
+    margin-top: auto; /* Pushes logout to bottom if needed */
 }
 
-.sidebar-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-avatar-sm {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.user-name {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #1a1a2e;
-    line-height: 1.2;
-}
-
-.user-role {
-    font-size: 0.7rem;
-    color: #6c757d;
-}
+    .logout-item:hover {
+        background: #fff5f5 !important;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.1) !important;
+    }
 
 /* ══════════════════════════
    MAIN AREA
@@ -294,6 +262,13 @@ body {
         font-size: 0.85rem;
         color: #6c757d;
         margin-bottom: 0;
+    }
+.header-container {
+    transition: transform 0.3s ease;
+}
+
+    .header-container:hover {
+        border-color: #27ae60 !important;
     }
 
 /* ══════════════════════════

@@ -1,28 +1,103 @@
-﻿
+﻿@model EchoHub.Models.User
+
 @{
-    ViewData["Title"] = "EditUser";
+    ViewData["Title"] = "Edit User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@model EchoHub.Models.User
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<h2>Edit User</h2>
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-<form method="post">
-    <input type="hidden" asp-for="Id" />
+        <i class="bi bi-person-gear position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <input asp-for="Name" />
-    <br />
+        <div class="position-relative d-flex align-items-center gap-3">
+            <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-person-fill-gear text-white fs-4"></i>
+            </div>
+            <div>
+                <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">Edit User</h2>
+                <p class="text-muted mb-0 small d-flex align-items-center">
+                    <i class="bi bi-info-circle me-1"></i> Modify user profile information and system access levels.
+                </p>
+            </div>
+        </div>
+    </div>
 
-    <input asp-for="Email" />
-    <br />
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">User Profile Details</h5>
 
-    <select asp-for="Role">
-        <option>User</option>
-        <option>Staff</option>
-        <option>Admin</option>
-    </select>
+                <form method="post">
+                    <input type="hidden" asp-for="Id" />
 
-    <br />
-    <button type="submit">Save</button>
-</form>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label fw-semibold text-secondary small uppercase">Full Name</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-person text-success"></i>
+                            </span>
+                            <input asp-for="Name" class="form-control border-start-0 shadow-none p-2" placeholder="Enter name" required />
+                        </div>
+                    </div>
 
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-semibold text-secondary small uppercase">Email Address</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-envelope text-success"></i>
+                            </span>
+                            <input asp-for="Email" class="form-control border-start-0 shadow-none p-2" placeholder="Enter email" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Role" class="form-label fw-semibold text-secondary small uppercase">System Role</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-shield-lock text-success"></i>
+                            </span>
+                            <select asp-for="Role" class="form-select border-start-0 shadow-none p-2">
+                                <option value="User">User</option>
+                                <option value="Staff">Staff</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 pt-2">
+                        <button type="submit" class="btn btn-success rounded-3 fw-bold shadow-sm px-4 py-2" style="background-color: #27ae60; border: none;">
+                            <i class="bi bi-check-lg me-2"></i> Save Changes
+                        </button>
+                        <a href="/Admin/Users" class="btn btn-outline-secondary rounded-3 px-4 py-2">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <h5 class="fw-bold text-dark mb-3">Role Information</h5>
+                <div class="d-flex flex-column gap-3">
+                    <div class="p-3 rounded-3" style="background-color: #f0fff4; border-left: 4px solid #27ae60;">
+                        <strong class="text-success small d-block">Admin</strong>
+                        <p class="text-muted small mb-0">Full system access, user management, and report generation.</p>
+                    </div>
+                    <div class="p-3 rounded-3" style="background-color: #f0f7ff; border-left: 4px solid #3b82f6;">
+                        <strong class="text-primary small d-block">Staff</strong>
+                        <p class="text-muted small mb-0">Can manage e-waste categories and process submissions.</p>
+                    </div>
+                    <div class="p-3 rounded-3" style="background-color: #f8f9fa; border-left: 4px solid #6c757d;">
+                        <strong class="text-secondary small d-block">User</strong>
+                        <p class="text-muted small mb-0">Standard access to submit e-waste and view personal history.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
