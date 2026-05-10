@@ -20,7 +20,21 @@ namespace EchoHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
             var categories = _context.Categories.ToList();
+
+            // TOTAL ITEMS
+            ViewBag.TotalItems = _context.EwasteItems.Count();
+
+            // MOST POPULAR CATEGORY
+            var mostPopular = _context.EwasteItems
+                .GroupBy(e => e.Category)
+                .OrderByDescending(g => g.Count())
+                .Select(g => g.Key)
+                .FirstOrDefault();
+
+            ViewBag.MostPopular = mostPopular ?? "N/A";
+
             return View(categories);
         }
 

@@ -31,7 +31,6 @@
                         </div>
                         <div class="category-info">
                             <span class="category-name">@c.Name</span>
-                            <span class="category-count">@c.CategoryId items</span>
                         </div>
                     </div>
                     <p class="category-desc">@c.Name</p>
@@ -68,33 +67,49 @@
 
 <!-- Bottom Stats -->
 <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+
+    <!-- TOTAL CATEGORIES -->
     <div class="stat-card">
         <div class="stat-info">
             <span class="stat-label">Total Categories</span>
-            <span class="stat-value">@Model.Count()</span>
+            <span class="stat-value">
+                @Model.Count()
+            </span>
         </div>
+
         <div class="stat-icon ewaste">
             <i class="bi bi-tag"></i>
         </div>
     </div>
+
+    <!-- MOST POPULAR -->
     <div class="stat-card">
         <div class="stat-info">
             <span class="stat-label">Most Popular</span>
-            <span class="stat-value" style="color:#27ae60; font-size:1.2rem;">
-                @(Model.FirstOrDefault()?.Name ?? "N/A")
+
+            <span class="stat-value">
+                @ViewBag.MostPopular
             </span>
         </div>
+
         <div class="stat-icon recycled">
             <i class="bi bi-star"></i>
         </div>
     </div>
+
+    <!-- TOTAL ITEMS -->
     <div class="stat-card">
         <div class="stat-info">
             <span class="stat-label">Total Items</span>
-            <span class="stat-value">@ViewBag.TotalItems</span>
+
+            <span class="stat-value">
+                @ViewBag.TotalItems
+            </span>
         </div>
+
         <div class="stat-icon users">
             <i class="bi bi-recycle"></i>
         </div>
     </div>
+
 </div>

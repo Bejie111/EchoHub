@@ -646,7 +646,14 @@ body {
     .admin-table tbody tr:hover {
         background: #f8fffe;
     }
-
+    .submission-badge {
+        background: #27ae60;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
 /* Role Badges */
 .role-badge {
     display: inline-block;
