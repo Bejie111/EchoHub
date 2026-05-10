@@ -74,19 +74,34 @@ namespace EchoHub.Controllers
         //Handles the creation of a new user.
         [HttpPost]
         [Route("Account/Register")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(User user)
         {
             //Checks if the data provided matches the requirements set in the User Model
             if (ModelState.IsValid)
-            { 
+            {
+                // CHECK IF EMAIL ALREADY EXISTS
+                bool emailExists = _context.Users
+                    .Any(u => u.Email.ToLower() == user.Email.ToLower());
+
+                if (emailExists)
+                {
+                    ModelState.AddModelError("Email",
+                        "This email is already registered.");
+                    return View(user);
+                }
+
+                // SAVE LOWERCASE EMAIL
+                user.Email = user.Email.ToLower();
+
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
-                return RedirectToAction("Login");//Redirect to login page after successful registration
+                return RedirectToAction("Login");
             }
 
-            //If validation fails, return to the form with existing data to show errors
+
             return View(user);
         }
 
