@@ -20,7 +20,28 @@ namespace EchoHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            return View();
+            // ALL ITEMS
+            var items = _context.EwasteItems
+                .OrderByDescending(e => e.DateSubmitted)
+                .ToList();
+
+            // TOTAL COLLECTED
+            ViewBag.TotalCollected = _context.EwasteItems
+                .Count(e => e.Status == "Collected");
+
+            // READY FOR RECYCLING
+            ViewBag.ReadyForRecycling = _context.EwasteItems
+                .Count(e => e.Status == "Collected");
+
+            // DISPOSED ITEMS
+            ViewBag.DisposedItems = _context.EwasteItems
+                .Count(e => e.Status == "Disposed");
+
+            // RECYCLED ITEMS
+            ViewBag.RecycledItems = _context.EwasteItems
+                .Count(e => e.Status == "Recycled");
+
+            return View(items);
         }
 
         public IActionResult Manage()

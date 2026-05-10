@@ -15,49 +15,82 @@
     <!-- Cards -->
     <div class="row g-3 mt-3">
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+        <!-- TOTAL COLLECTED -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6 class="text-muted">Total Collected Items</h6>
-                    <h3>@ViewBag.TotalSubmission</h3>
+
+                    <h6 class="text-muted">
+                        Total Collected Items
+                    </h6>
+
+                    <h3>
+                        @ViewBag.TotalCollected
+                    </h3>
+
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+        <!-- READY FOR RECYCLING -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6 class="text-muted">Items for Recycling</h6>
-                    <h3>@ViewBag.Recycled</h3>
+
+                    <h6 class="text-muted">
+                        Items for Recycling
+                    </h6>
+
+                    <h3>
+                        @ViewBag.ReadyForRecycling
+                    </h3>
+
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+        <!-- DISPOSED -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0">
                 <div class="card-body">
-                    <h6 class="text-muted">Items Disposed</h6>
-                    <h3>@ViewBag.Pending</h3>
+
+                    <h6 class="text-muted">
+                        Items Disposed
+                    </h6>
+
+                    <h3>
+                        @ViewBag.DisposedItems
+                    </h3>
+
                 </div>
             </div>
         </div>
+
+    </div>
 
         <!-- Quick Actions -->
         <div class="card mt-4 shadow-sm border-0">
             <div class="card-body">
-                <h6 class="mb-3 fw-bold">Quick Actions</h6>
 
-                <a href="/Staff/Manage" class="btn btn-success btn-sm me-2">
+                <h6 class="mb-3 fw-bold">
+                    Quick Actions
+                </h6>
+
+                <a href="/Staff/Manage"
+                       class="btn btn-success btn-sm me-2">
                     Manage E-Waste
                 </a>
 
-                <a href="/Collection/Collect" class="btn btn-outline-secondary btn-sm me-2">
+                <a href="/Collection/Collect"
+                       class="btn btn-success btn-sm me-2">
                     View Collections
                 </a>
 
-                <a href="/Recycling/Dashboard" class="btn btn-outline-secondary btn-sm">
+                <a href="/Recycling/Dashboard"
+                       class="btn btn-success btn-sm">
                     Recycling Tracking
                 </a>
+
             </div>
         </div>
         <!-- Recent Activity -->
@@ -90,9 +123,26 @@
                                 <small class="text-muted">Submitted item</small>
                             </div>
 
-                            <small class="text-muted">
-                                @item.DateSubmitted.ToString("MMM dd, yyyy")
-                            </small>
+                        <small class="text-muted">
+
+                            @if (item.Status == "Pending")
+                            {
+                                <text>New e-waste submitted</text>
+                            }
+                            else if (item.Status == "Collected")
+                            {
+                                <text>Item collected by staff</text>
+                            }
+                            else if (item.Status == "Recycled")
+                            {
+                                <text>Item successfully recycled</text>
+                            }
+                            else if (item.Status == "Disposed")
+                            {
+                                <text>Item disposed properly</text>
+                            }
+
+                        </small>
 
                         </div>
                     }
