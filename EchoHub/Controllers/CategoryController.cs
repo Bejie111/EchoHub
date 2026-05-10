@@ -14,6 +14,8 @@ namespace EchoHub.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [Route("Category/Index")]
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("Role") != "Admin")
@@ -38,12 +40,15 @@ namespace EchoHub.Controllers
             return View(categories);
         }
 
+        [HttpGet]
+        [Route("Category/Create")]
         public IActionResult Create() 
         { 
             return View();
         }
 
         [HttpPost]
+        [Route("Category/Create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
@@ -70,6 +75,8 @@ namespace EchoHub.Controllers
         }
 
         // EDIT
+        [HttpGet]
+        [Route("Category/Edit/{CategoryId}")]
         public IActionResult Edit(int CategoryId)
         {
             var category = _context.Categories.Find(CategoryId);
@@ -77,6 +84,7 @@ namespace EchoHub.Controllers
         }
 
         [HttpPost]
+        [Route("Category/Edit/{CategoryId}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Category category)
         {
@@ -112,6 +120,8 @@ namespace EchoHub.Controllers
         }
 
         // DELETE
+        [HttpGet]
+        [Route("Category/Delete/{CategoryId}")]
         public IActionResult Delete(int CategoryId)
         {
             var category = _context.Categories.Find(CategoryId);

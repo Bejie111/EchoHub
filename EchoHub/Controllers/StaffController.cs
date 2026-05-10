@@ -14,6 +14,8 @@ namespace EchoHub.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [Route("Staff/Dashboard")]
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
@@ -50,6 +52,8 @@ namespace EchoHub.Controllers
             return View(items);
         }
 
+        [HttpGet]
+        [Route("Staff/ViewItem/{id}")]
         public IActionResult ViewItem(int id)
         {
             var item = _context.EwasteItems
