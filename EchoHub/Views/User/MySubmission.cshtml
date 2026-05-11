@@ -1,55 +1,86 @@
-﻿
-@{
-    ViewData["Title"] = "MySubmission";
-}
+﻿@model IEnumerable<EchoHub.Models.EwasteItem>
 
 @{
+    ViewData["Title"] = "My Submissions";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-@model IEnumerable<EchoHub.Models.EwasteItem>
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<link rel="stylesheet" href="~/css/userpages.css" />
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-<div class="container-box">
+        <i class="bi bi-shield-check position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <div class="top-line">
-
-        <h2>My Submissions</h2>
-
-        <form method="get" asp-action="MySubmission">
-            <input type="text"
-                   name="search"
-                   value="@ViewBag.Search"
-                   placeholder="Search..." />
-            <button type="submit">Search</button>
-        </form>
-
+        <div class="position-relative">
+            <div class="d-flex align-items-center gap-3">
+                <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-clipboard-data text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">My Submissions</h2>
+                    <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Track the status of your submitted e-waste items.<
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+            <form method="get" asp-action="MySubmission" class="d-flex gap-2">
+                <div class="input-group shadow-sm" style="width: 300px;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" name="search" value="@ViewBag.Search" class="form-control border-start-0 shadow-none" placeholder="Search items..." />
+                    <button class="btn btn-success px-3" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <table>
-
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Date Submitted</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Item_Name</td>
-                    <td>@item.Category</td>
-                    <td>@item.Status</td>
-                    <td>@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
-                </tr>
-            }
-        </tbody>
-
-    </table>
-
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3 text-uppercase small fw-bold text-secondary">Item Name</th>
+                            <th class="py-3 text-uppercase small fw-bold text-secondary">Category</th>
+                            <th class="py-3 text-uppercase small fw-bold text-secondary">Status</th>
+                            <th class="pe-4 py-3 text-uppercase small fw-bold text-secondary">Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">No submissions found.</td>
+                            </tr>
+                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-semibold text-dark">@item.Item_Name</td>
+                                <td class="text-muted small">@item.Category</td>
+                                <td>
+                                    @{
+                                        // Color-coded statuses for uniformity
+                                        var badgeColor = item.Status switch
+                                        {
+                                                        "Recycled" => "bg-success-subtle text-success border-success",
+                                                        "Pending" => "bg-warning-subtle text-warning border-warning",
+                                                        "Disposed" => "bg-danger-subtle text-danger border-danger",
+                                            _ => "bg-secondary-subtle text-muted border-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeColor border rounded-pill px-3 py-2" style="font-size: 0.7rem;">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-muted small">@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-

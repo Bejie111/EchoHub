@@ -4,105 +4,118 @@
     ViewData["Title"] = "User Dashboard";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
+<div class="container-fluid py-4 bg-light min-vh-100">
 
-<link rel="stylesheet" href="~/css/userdashboard.css" />
+    <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
+         style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
-<div class="container mt-4">
+        <i class="bi bi-shield-check position-absolute text-success opacity-10"
+           style="font-size: 8rem; right: -20px; top: -20px; transform: rotate(15deg); pointer-events: none;"></i>
 
-    <h2 class="mb-1">Dashboard</h2>
-    <p class="text-muted">Welcome back! Here's your e-waste overview'</p>
-
-    <!-- Cards -->
-    <div class="row g-3 mt-3">
-
+        <div class="position-relative">
+            <div class="d-flex align-items-center gap-3">
+                <div class="shadow-sm" style="background: #27ae60; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-clipboard-data text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold text-dark mb-0" style="letter-spacing: -0.5px;">User Dashboard</h2>
+                    <p class="text-muted mb-0 small d-flex align-items-center">
+                        <i class="bi bi-info-circle me-1"></i> Welcome back! Here's your e-waste overview.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-3">
         <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+            <div class="card border-0 border-start border-primary border-4 shadow-sm h-100 bg-white">
                 <div class="card-body">
-                    <h6 class="text-muted">Total Submission</h6>
-                    <h3>@ViewBag.TotalSubmission</h3>
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Total Submission</small>
+                    <h3 class="fw-bold my-1 text-primary">@ViewBag.TotalSubmission</h3>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+            <div class="card border-0 border-start border-success border-4 shadow-sm h-100 bg-white">
                 <div class="card-body">
-                    <h6 class="text-muted">Items Recycled</h6>
-                    <h3>@ViewBag.Recycled</h3>
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Items Recycled</small>
+                    <h3 class="fw-bold my-1 text-success">@ViewBag.Recycled</h3>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+            <div class="card border-0 border-start border-warning border-4 shadow-sm h-100 bg-white">
                 <div class="card-body">
-                    <h6 class="text-muted">Items Pending</h6>
-                    <h3>@ViewBag.Pending</h3>
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Items Pending</small>
+                    <h3 class="fw-bold my-1 text-warning">@ViewBag.Pending</h3>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center shadow-sm">
+            <div class="card border-0 border-start border-info border-4 shadow-sm h-100 bg-white">
                 <div class="card-body">
-                    <h6 class="text-muted">Total Items</h6>
-                    <h3>@ViewBag.TotalItems</h3>
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Total Items</small>
+                    <h3 class="fw-bold my-1 text-info">@ViewBag.TotalItems</h3>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- Quick Actions -->
-    <div class="card mt-4 shadow-sm">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Quick Actions</h5>
-            <a href="/User/Submit" class="btn btn-success">
-                + Submit New Item
+    <div class="card border-0 shadow-sm rounded-4 mt-4">
+        <div class="card-body d-flex justify-content-between align-items-center py-3">
+            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-lightning-charge me-2 text-warning"></i>Quick Actions</h5>
+            <a href="/User/Submit" class="btn btn-success px-4 rounded-pill shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Submit New Item
             </a>
         </div>
     </div>
 
-    <!-- Recent Submissions -->
-    <div class="card mt-4 shadow-sm">
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between mb-3">
-                <h5>Recent Submissions</h5>
-                <a href="/User/MySubmission" class="btn btn-outline-primary btn-sm">
-                    View All
-                </a>
-            </div>
-
+    <div class="card border-0 shadow-sm rounded-4 mt-4">
+        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center rounded-top-4">
+            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Submissions</h5>
+            <a href="/User/MySubmission" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                View All
+            </a>
+        </div>
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Item Name</th>
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr class="text-muted small text-uppercase">
+                            <th class="ps-4">Item Name</th>
                             <th>Status</th>
-                            <th>Date Submitted</th>
+                            <th class="pe-4">Date Submitted</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         @foreach (var item in Model.Take(5))
                         {
                             <tr>
-                                <td>@item.Item_Name</td>
+                                <td class="ps-4 fw-semibold text-dark">@item.Item_Name</td>
                                 <td>
-                                    <span class="badge bg-secondary">
+                                    @{
+                                        // Define unique colors for each status
+                                        var badgeColor = item.Status switch
+                                        {
+                                            "Recycled" => "bg-success-subtle text-success border-success",
+                                            "Pending" => "bg-warning-subtle text-warning border-warning",
+                                            "Disposed" => "bg-danger-subtle text-danger border-danger",
+                                            _ => "bg-secondary-subtle text-muted border-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeColor border rounded-pill px-3 py-2" style="font-size: 0.7rem;">
                                         @item.Status
                                     </span>
                                 </td>
-                                <td>@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
+                                <td class="pe-4 text-muted small">@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
                             </tr>
                         }
                     </tbody>
-
                 </table>
             </div>
-
         </div>
     </div>
-
 </div>
