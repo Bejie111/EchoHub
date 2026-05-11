@@ -28,7 +28,7 @@ namespace EchoHub.Controllers
                     u.Email.Contains(search));
             }
 
-            //SUBMISSION 
+            //SUBMISSION - Counts how many e-waste items each user has submitted and passes this data to the view using ViewBag.
             ViewBag.SubmissionCounts = _context.EwasteItems
                 .GroupBy(e => e.UserId)
                 .ToDictionary(
@@ -39,7 +39,7 @@ namespace EchoHub.Controllers
             return View(users.ToList());
         }
 
-        //USER EDIT
+        //USER EDIT - Displays a form pre-populated with the user's current details, allowing the admin to make changes.
         [HttpGet]
         [Route("Admin/EditUser/{id}")]
         public IActionResult EditUser(int id)
@@ -48,7 +48,7 @@ namespace EchoHub.Controllers
             return View(user);
         }
 
-        //USER UPDATE
+        //USER UPDATE - Handles the form submission from the EditUser view, updating the user's details in the database.
         [HttpPost]
         [Route("Admin/EditUser/{id}")]
         public IActionResult EditUser(User updatedUser)
@@ -66,7 +66,7 @@ namespace EchoHub.Controllers
 
             return RedirectToAction("Users");
         }
-        //USER DELETE
+        //USER DELETE - Handles the deletion of a user from the database.
         [HttpGet]
         [Route("Admin/DeleteUser/{id}")]
         public IActionResult DeleteUser(int id)
@@ -82,7 +82,7 @@ namespace EchoHub.Controllers
             return RedirectToAction("Users");
         }
 
-        //DASHBOARD
+        //DASHBOARD - Displays key statistics and visualizations about e-waste submissions, recycling rates, and user activity.
         [HttpGet]
         [Route("Admin/Dashboard")]
         public IActionResult Dashboard()

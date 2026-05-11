@@ -22,31 +22,31 @@ namespace EchoHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            // ALL ITEMS
+            // ALL ITEMS ORDERED BY MOST RECENT
             var items = _context.EwasteItems
                 .OrderByDescending(e => e.DateSubmitted)
                 .ToList();
 
-            // TOTAL COLLECTED
+            // TOTAL COLLECTED ITEMS
             ViewBag.TotalCollected = _context.EwasteItems
                 .Count(e => e.Status == "Collected");
 
-            // READY FOR RECYCLING
+            // READY FOR RECYCLING ITEMS
             ViewBag.ReadyForRecycling = _context.EwasteItems
                 .Count(e => e.Status == "Collected");
 
-            // DISPOSED ITEMS
+            // TOTAL DISPOSED ITEMS 
             ViewBag.DisposedItems = _context.EwasteItems
                 .Count(e => e.Status == "Disposed");
 
-            // RECYCLED ITEMS
+            // TOTAL RECYCLED ITEMS
             ViewBag.RecycledItems = _context.EwasteItems
                 .Count(e => e.Status == "Recycled");
 
             return View(items);
         }
 
-        public IActionResult Manage()
+        public IActionResult Manage()// THIS IS THE MANAGE VIEW FOR STAFF TO SEE ALL THE ITEMS IN THE SYSTEM
         {
             var items = _context.EwasteItems.ToList();
             return View(items);
@@ -54,7 +54,7 @@ namespace EchoHub.Controllers
 
         [HttpGet]
         [Route("Staff/ViewItem/{id}")]
-        public IActionResult ViewItem(int id)
+        public IActionResult ViewItem(int id) //THIS IS THE VIEW ITEM FOR STAFF TO SEE THE DETAILS OF THE ITEM
         {
             var item = _context.EwasteItems
                 .Include(e => e.User)

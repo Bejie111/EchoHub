@@ -21,24 +21,24 @@ namespace EchoHub.Controllers
         public IActionResult Dashboard()
         {
            
-            int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));//CONVERS THE STRING USERID TO INT
 
             var submissions = _context.EwasteItems
                 .Where(e => e.UserId == userId)
                 .OrderByDescending(e => e.DateSubmitted)
                 .ToList();
 
-            ViewBag.TotalSubmission = submissions.Count();
-            ViewBag.Recycled = submissions.Count(e => e.Status == "Recycled");
-            ViewBag.Pending = submissions.Count(e => e.Status == "Pending");
-            ViewBag.TotalItems = submissions.Count();
+            ViewBag.TotalSubmission = submissions.Count();//STORE THE TOTAL NUMBER OF SUBMISSIONS IN THE VIEWBAG
+            ViewBag.Recycled = submissions.Count(e => e.Status == "Recycled");//STORE THE NUMBER OF RECYCLED ITEMS IN THE VIEWBAG
+            ViewBag.Pending = submissions.Count(e => e.Status == "Pending");//STORE THE NUMBER OF PENDING ITEMS IN THE VIEWBAG
+            ViewBag.TotalItems = submissions.Count();//STORE THE TOTAL NUMBER OF ITEMS IN THE VIEWBAG
 
             return View(submissions);
         }
 
         [HttpGet]
         [Route("User/Submit")]
-        public IActionResult Submit()
+        public IActionResult Submit()//THIS IS THE GET METHOD FOR THE SUBMIT VIEW IT SHOWS THE FORM FOR THE USER TO SUBMIT THEIR E-WASTE ITEM
         {
             ViewBag.Categories = _context.Categories.ToList();
             return View();
@@ -47,37 +47,37 @@ namespace EchoHub.Controllers
         [HttpPost]
         [Route("User/Submit")]
         [ValidateAntiForgeryToken]
-        public IActionResult Submit(EwasteItem item, IFormFile file)
+        public IActionResult Submit(EwasteItem item, IFormFile file)//THIS IS THE POST METHOD FOR THE SUBMIT VIEW IT PROCESSES THE FORM DATA AND SAVES THE ITEM TO THE DATABASE
         {
-            var sessionUserId = HttpContext.Session.GetString("UserId");
+            var sessionUserId = HttpContext.Session.GetString("UserId");//GET THE USERID FROM THE SESSION
 
-            if (string.IsNullOrEmpty(sessionUserId))
+            if (string.IsNullOrEmpty(sessionUserId))//IF THE USERID IN THE SESSION IS NULL OR EMPTY THEN REDIRECT TO THE LOGIN PAGE
                 return RedirectToAction("Login", "Account");
 
-            int userId = int.Parse(sessionUserId);
+            int userId = int.Parse(sessionUserId);//CONVERT THE STRING USERID TO INT
 
-            item.UserId = userId;
-            item.Status = "Pending";
-            item.DateSubmitted = DateTime.Now;
+            item.UserId = userId;//SET THE USERID OF THE ITEM TO THE USERID FROM THE SESSION
+            item.Status = "Pending";//SET THE STATUS OF THE ITEM TO PENDING
+            item.DateSubmitted = DateTime.Now;//SET THE DATE SUBMITTED OF THE ITEM TO THE CURRENT DATE AND TIME
 
-            if (file != null && file.Length > 0)
+            if (file != null && file.Length > 0)//IF THE FILE IS NOT NULL AND THE FILE LENGTH IS GREATER THAN 0 THEN PROCESS THE FILE UPLOAD
             {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                string folder = Path.Combine(_env.WebRootPath, "uploads");
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);//GENERATE A UNIQUE FILE NAME USING A GUID AND THE ORIGINAL FILE EXTENSION
+                string folder = Path.Combine(_env.WebRootPath, "uploads");//COMBINE THE WEB ROOT PATH WITH THE UPLOADS FOLDER TO GET THE FULL PATH TO THE UPLOADS FOLDER
 
-                if (!Directory.Exists(folder))
-                    Directory.CreateDirectory(folder);
+                if (!Directory.Exists(folder))//IF THE UPLOADS FOLDER DOES NOT EXIST THEN CREATE THE UPLOADS FOLDER
+                    Directory.CreateDirectory(folder);//IF THE UPLOADS FOLDER DOES NOT EXIST THEN CREATE THE UPLOADS FOLDER
 
-                string path = Path.Combine(folder, fileName);
+                string path = Path.Combine(folder, fileName);//COMBINE THE UPLOADS FOLDER PATH WITH THE UNIQUE FILE NAME TO GET THE FULL PATH TO THE FILE
 
-                using (var stream = new FileStream(path, FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))//CREATE A NEW FILE STREAM TO THE FULL PATH OF THE FILE IN CREATE MODE
                 {
-                    file.CopyTo(stream);
+                    file.CopyTo(stream);//COPY THE FILE TO THE FILE STREAM
                 }
 
-                item.Image = fileName;
+                item.Image = fileName;//SET THE IMAGE PROPERTY OF THE ITEM TO THE UNIQUE FILE NAME
             }
-            _context.EwasteItems.Add(item);
+            _context.EwasteItems.Add(item);//ADD THE ITEM TO THE DATABASE CONTEXT
             _context.SaveChanges();
 
             return RedirectToAction("Dashboard");
@@ -85,7 +85,7 @@ namespace EchoHub.Controllers
 
         [HttpGet]
         [Route("User/MySubmission")]
-        public IActionResult MySubmission(string search)
+        public IActionResult MySubmission(string search)//THIS IS THE MY SUBMISSION VIEW FOR THE USER TO SEE ALL THEIR SUBMISSIONS AND IT ALSO HAS A SEARCH FUNCTIONALITY TO SEARCH FOR THE SUBMISSIONS BY ITEM NAME, CATEGORY, OR STATUS
         {
             var sessionUserId = HttpContext.Session.GetString("UserId");
 
@@ -98,7 +98,7 @@ namespace EchoHub.Controllers
                 .Where(e => e.UserId == userId);
 
          
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(search))//SEARCH FUNCTIONALITY TO SEARCH FOR THE SUBMISSIONS BY ITEM NAME, CATEGORY, OR STATUS IF THE SEARCH STRING IS NOT NULL OR EMPTY OR WHITESPACE THEN FILTER THE SUBMISSIONS BY THE SEARCH STRING
             {
                 val = val.Where(e =>
                     e.Item_Name.Contains(search) ||

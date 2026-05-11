@@ -30,7 +30,7 @@ namespace EchoHub.Controllers
             User foundUser = null;
 
 
-            //Find a recode that maches both Email and Password
+            //Find a record that maches both Email and Password
             foreach (var u in _context.Users)
             {
                 if (u.Email == email && u.Password == password)

@@ -14,15 +14,16 @@ namespace EchoHub.Controllers
             _context = context;
         }
 
-        // DASHBOARD
+        // DASHBOARD - VIEW ALL THE PENDING COLLECTIONS
         public IActionResult Collect()
         {
-           //Pending 
-           ViewBag.PendingItems = _context.EwasteItems
+            //PENDING ITEMS - NOT ASSIGNED TO ANY COLLECTION
+            ViewBag.PendingItems = _context.EwasteItems
                 .Include(e => e.User)
-                .Where(e => e.Status == "Pending" && !_context.Collections.Any(c => c.EwasteId == e.EwasteId))
+                .Where(e => e.Status == "Pending" && !_context.Collections.Any(c => c.EwasteId == e.EwasteId)) 
                 .ToList();
 
+            //ALL COLLECTIONS - INCLUDING ASSIGNED AND PENDING
             var collections = _context.Collections
                 .Include(c => c.EwasteItem)
                     .ThenInclude(e => e.User)
@@ -31,7 +32,7 @@ namespace EchoHub.Controllers
             return View(collections);
         }
 
-        // GET: Assign Collection
+        // GET: ASSIGN COLLECTION - SHOW THE FORM TO ASSIGN A COLLECTION TO AN E-WASTE ITEM
         public IActionResult Assign(int id)
         {
             var item = _context.EwasteItems.Find(id);
@@ -48,11 +49,11 @@ namespace EchoHub.Controllers
             return View(model);
         }
 
-        // POST: Assign Collection
+        // POST: ASSIGN COLLECTION - HANDLE THE FORM SUBMISSION TO ASSIGN A COLLECTION TO AN E-WASTE ITEM
         [HttpPost]
         public IActionResult Assign(Collection collection)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) //VALIDATE THE MODEL AND IF VALID, CREATE A NEW COLLECTION RECORD WITH STATUS "Scheduled" AND NULL COLLECTION DATE
             {
                 collection.Status = "Scheduled";
                 collection.CollectionDate = null;
@@ -69,19 +70,19 @@ namespace EchoHub.Controllers
             return View(collection);
         }
 
-        // Mark as Collected
+        // MARK AS COLLECTED - MARK A COLLECTION AS COLLECTED AND UPDATE THE STATUS OF THE E-WASTE ITEM
         public IActionResult MarkCollected(int id)
         {
             var collect = _context.Collections
                 .Include(c => c.EwasteItem)
                 .FirstOrDefault(c => c.CollectionId == id);
 
-            if (collect != null)
+            if (collect != null) //IF THE COLLECTION RECORD EXISTS, UPDATE ITS STATUS TO "Collected", SET THE COLLECTION DATE TO THE CURRENT DATE, AND UPDATE THE STATUS OF THE ASSOCIATED E-WASTE ITEM TO "Collected"
             {
                 collect.Status = "Collected";
                 collect.CollectionDate = DateTime.Now;
 
-                if(collect.EwasteItem != null)
+                if(collect.EwasteItem != null)//IF THE ASSOCIATED E-WASTE ITEM EXISTS, UPDATE ITS STATUS TO "Collected" AS WELL
                 {
                     collect.EwasteItem.Status = "Collected";
                 }

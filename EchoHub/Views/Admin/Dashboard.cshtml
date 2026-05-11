@@ -4,7 +4,7 @@
 
     var percent = ViewBag.Percent ?? 0;
 }
-
+<!--For the Header-->
 <div class="container-fluid py-4 bg-light min-vh-100">
 
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
@@ -28,6 +28,7 @@
         </div>
     </div>
 
+<!--Card For the Total Users-->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-primary h-100">
@@ -40,6 +41,7 @@
             </div>
         </div>
 
+<!--Card for the Total Items-->
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-success h-100">
                 <div class="stat-info">
@@ -51,6 +53,7 @@
             </div>
         </div>
 
+<!--Card for the Total Recycled Items-->
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-info h-100">
                 <div class="stat-info">
@@ -61,7 +64,7 @@
                 </div>
             </div>
         </div>
-
+<!--Card for the Total Disposed Items-->
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 border-start border-4 border-danger h-100">
                 <div class="stat-info">
@@ -73,7 +76,7 @@
             </div>
         </div>
     </div>
-
+    <!--STATS-->
     <div class="row g-4 mb-4">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
@@ -137,7 +140,7 @@
         const recycled = @Html.Raw(ViewBag.MonthlyRecycled ?? "[0,0,0,0,0,0]");
         const disposed = @Html.Raw(ViewBag.MonthlyDisposed ?? "[0,0,0,0,0,0]");
 
-        // LINE CHART
+        // LINE CHART for Monthly Submissions, Recycled, and Disposed
         new Chart(document.getElementById('lineChart'), {
             type: 'line',
             data: {
@@ -151,7 +154,7 @@
             options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // PIE CHART
+        // PIE CHART for E-Waste by Category
         new Chart(document.getElementById('pieChart'), {
             type: 'pie',
             data: {
@@ -164,7 +167,7 @@
             options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // BAR CHART
+        // BAR CHART for Recycling Performance
         new Chart(document.getElementById('barChart'), {
             type: 'bar',
             data: {

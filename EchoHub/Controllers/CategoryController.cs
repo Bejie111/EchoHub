@@ -17,6 +17,7 @@ namespace EchoHub.Controllers
         [Route("Category/Index")]
         public IActionResult Index()
         {
+            //AUTH CHECK - ONLY ADMIN CAN ACCESS, IT CHECKS THE SESSION FOR THE ROLE, IF NOT ADMIN, REDIRECT TO LOGIN
             if (HttpContext.Session.GetString("Role") != "Admin")
             {
                 return RedirectToAction("Login", "Account");
@@ -24,10 +25,10 @@ namespace EchoHub.Controllers
 
             var categories = _context.Categories.ToList();
 
-            // TOTAL ITEMS
+            // TOTAL ITEMS - COUNT ALL ITEMS IN THE DATABASE
             ViewBag.TotalItems = _context.EwasteItems.Count();
 
-            // MOST POPULAR CATEGORY
+            // MOST POPULAR CATEGORY - GROUP BY CATEGORY, COUNT ITEMS IN EACH CATEGORY, ORDER BY COUNT DESCENDING, TAKE FIRST
             var mostPopular = _context.EwasteItems
                 .GroupBy(e => e.Category)
                 .OrderByDescending(g => g.Count())
@@ -41,7 +42,7 @@ namespace EchoHub.Controllers
 
         [HttpGet]
         [Route("Category/Create")]
-        public IActionResult Create() 
+        public IActionResult Create() // GET method to show the create form
         { 
             return View();
         }
@@ -49,11 +50,11 @@ namespace EchoHub.Controllers
         [HttpPost]
         [Route("Category/Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public IActionResult Create(Category category) // POST method to handle form submission
         {
             if (ModelState.IsValid)
             {
-                // CHECK DUPLICATE
+                // CHECK DUPLICATE - CHECK IF A CATEGORY WITH THE SAME NAME ALREADY EXISTS IN THE DATABASE, IGNORE CASE
                 bool exists = _context.Categories
                     .Any(c => c.Name.ToLower() == category.Name.ToLower());
 
@@ -73,7 +74,7 @@ namespace EchoHub.Controllers
             return View(category);
         }
 
-        // EDIT
+        // EDIT - // GET METHOD TO SHOW THE EDIT FORM, POST METHOD TO HANDLE FORM SUBMISSION
         [HttpGet]
         [Route("Category/Edit/{CategoryId}")]
         public IActionResult Edit(int CategoryId)
@@ -85,8 +86,9 @@ namespace EchoHub.Controllers
         [HttpPost]
         [Route("Category/Edit/{CategoryId}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
+        public IActionResult Edit(Category category) //POST METHOD TO HANDLE FORM SUBMISSION
         {
+            // CHECK IF MODEL STATE IS VALID - THIS CHECKS IF THE DATA SUBMITTED IN THE FORM MEETS THE VALIDATION RULES DEFINED IN THE MODEL (E.G., REQUIRED FIELDS, STRING LENGTH, ETC.)
             if (ModelState.IsValid)
             {
                 var existing = _context.Categories.Find(category.CategoryId);
@@ -96,7 +98,7 @@ namespace EchoHub.Controllers
                     return NotFound();
                 }
 
-                // CHECK DUPLICATE
+                // CHECK DUPLICATE - CHECK IF A CATEGORY WITH THE SAME NAME ALREADY EXISTS IN THE DATABASE, IGNORE CASE, EXCLUDE THE CURRENT CATEGORY BEING EDITED
                 bool duplicate = _context.Categories.Any(c =>
                     c.Name.ToLower() == category.Name.ToLower() &&
                     c.CategoryId != category.CategoryId);
@@ -121,7 +123,7 @@ namespace EchoHub.Controllers
         // DELETE
         [HttpGet]
         [Route("Category/Delete/{CategoryId}")]
-        public IActionResult Delete(int CategoryId)
+        public IActionResult Delete(int CategoryId) //DELETE METHOD TO HANDLE DELETION
         {
             var category = _context.Categories.Find(CategoryId);
 
