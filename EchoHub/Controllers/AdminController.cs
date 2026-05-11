@@ -42,7 +42,7 @@ namespace EchoHub.Controllers
 
         //USER EDIT
         [HttpGet]
-        [Route("Admin/Users/EditUsers/{id}")]
+        [Route("Admin/EditUser/{id}")]
         public IActionResult EditUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -51,7 +51,7 @@ namespace EchoHub.Controllers
 
         //USER UPDATE
         [HttpPost]
-        [Route("Admin/Users/EditUsers/{id}")]
+        [Route("Admin/EditUser/{id}")]
         public IActionResult EditUser(User updatedUser)
         {
             var user = _context.Users.Find(updatedUser.Id);
@@ -69,7 +69,7 @@ namespace EchoHub.Controllers
         }
         //USER DELETE
         [HttpGet]
-        [Route("Admin/Users/DeleteUser/{id}")]
+        [Route("Admin/DeleteUser/{id}")]
         public IActionResult DeleteUser(int id)
         {
             var user = _context.Users.Find(id);
