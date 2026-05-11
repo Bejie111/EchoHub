@@ -70,10 +70,15 @@
                             <p class="form-control-plaintext pb-2 fw-semibold">@Model.User?.Name</p>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <label class="form-label text-muted small fw-bold text-uppercase">Phone Number</label>
+                        <p class="form-control-plaintext pb-2 fw-semibold">@Model.User?.PhoneNumber</p>
+                    </div>
+                </div>
 
                     <div class="mt-5 pt-3 border-top">
-                        <a asp-action="Dashboard" class="btn btn-outline-secondary px-4 rounded-pill">
-                            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                        <a asp-action="Manage" class="btn btn-outline-secondary px-4 rounded-pill">
+                            <i class="bi bi-arrow-left me-2"></i>Back
                         </a>
                     </div>
                 </div>
