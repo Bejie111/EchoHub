@@ -32,6 +32,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
             <h5 class="fw-bold text-dark mb-0">All Registered Users</h5>
 
+            <!--SEARCH BAR-->
             <form method="get" asp-action="Users" class="d-flex gap-2">
                 <div class="input-group" style="max-width: 300px;">
                     <span class="input-group-text bg-white border-end-0 rounded-start-3">
@@ -39,9 +40,8 @@
                     </span>
                     <input type="text" name="search" value="@ViewBag.Search"
                            class="form-control border-start-0 rounded-end-3 shadow-none"
-                           placeholder="Search users..." />
+                           placeholder="Search users..." id="searchInput"/>
                 </div>
-                <button type="submit" class="btn btn-dark rounded-3 px-3">Search</button>
             </form>
         </div>
 
@@ -70,7 +70,7 @@
                                 _ => "bg-success"
                             };
 
-                            <tr>
+                            <tr class="search-row">
                                 <td class="ps-3 fw-semibold text-dark">@user.Name</td>
                                 <td class="text-muted">@user.Email</td>
                                 <td>
@@ -123,3 +123,30 @@
         }
     </div>
 </div>
+@section Scripts {
+
+    <script>
+
+        document.getElementById("searchInput")
+            .addEventListener("keyup", function () {
+
+            let filter = this.value.toLowerCase();
+
+            let rows = document.querySelectorAll(".search-row");
+
+            rows.forEach(row => {
+
+                let text = row.innerText.toLowerCase();
+
+                row.style.display =
+                    text.includes(filter)
+                    ? ""
+                    : "none";
+
+            });
+
+        });
+
+    </script>
+
+}
