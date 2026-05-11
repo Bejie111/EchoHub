@@ -35,11 +35,12 @@ namespace EchoHub.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("EchoHub.Models.Collection", b =>
@@ -66,7 +67,7 @@ namespace EchoHub.Migrations
 
                     b.HasIndex("EwasteId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("EchoHub.Models.EwasteItem", b =>
@@ -110,7 +111,7 @@ namespace EchoHub.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EwasteItems");
+                    b.ToTable("EwasteItems", (string)null);
                 });
 
             modelBuilder.Entity("EchoHub.Models.User", b =>
@@ -130,7 +131,8 @@ namespace EchoHub.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -138,7 +140,8 @@ namespace EchoHub.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<string>("Role")
                         .IsRequired()
