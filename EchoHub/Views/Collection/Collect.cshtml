@@ -6,8 +6,9 @@
 
     var pending = ViewBag.PendingItems as List<EchoHub.Models.EwasteItem>;
 }
-<div class="container-fluid py-4 bg-light min-vh-100">
 
+<!--HEADER-->
+<div class="container-fluid py-4 bg-light min-vh-100">
 <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
      style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
@@ -28,6 +29,7 @@
         </div>
     </div>
 </div>
+<!--CARD COLLECTION DETAILS-->
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="stat-card border-start border-success border-4 shadow-sm h-100">
@@ -59,8 +61,8 @@
         </div>
     </div>
 
+<!--PENDING REQUESTS-->
     <div class="row g-4">
-
         <div class="col-lg-6">
             <div class="card-box shadow-sm border-0 h-100">
                 <div class="p-3 border-bottom d-flex align-items-center bg-light rounded-top-4">
@@ -97,6 +99,7 @@
             </div>
         </div>
 
+<!--SCHEDULED COLLECTION-->
         <div class="col-lg-6">
             <div class="card-box shadow-sm border-0 h-100">
                 <div class="p-3 border-bottom d-flex align-items-center bg-light rounded-top-4">

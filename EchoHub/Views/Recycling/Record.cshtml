@@ -2,10 +2,8 @@
     ViewData["Title"] = "Record Recycling";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
-
-<link rel="stylesheet" href="~/css/recycling.css" />
+<!--HEADER-->
 <div class="container-fluid py-4 bg-light min-vh-100">
-
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
          style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
@@ -27,8 +25,8 @@
         </div>
     </div>
 
+<!--INPUT RECYCLING RECORD-->
     <div class="card form-card">
-
         <form asp-action="Record" method="post">
 
             @Html.AntiForgeryToken()

@@ -4,8 +4,8 @@
     ViewData["Title"] = "Recycling Tracking";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
+<!--HEADER-->
 <div class="container-fluid py-4 bg-light min-vh-100">
-
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
          style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
@@ -36,6 +36,7 @@
             </div>
         </div>
 
+<!--CARD FOR RECYCLED ITEMS-->
         <div class="col-md-4">
             <div class="stat-card border-start border-success border-4 shadow-sm h-100 bg-white p-3">
                 <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem;">Recycled</small>
@@ -52,13 +53,14 @@
             </div>
         </div>
     </div>
-
+<!--READY FOR RECYCLING TABLE-->
     <div class="row g-4">
         <div class="col-lg-12">
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center rounded-top-4">
                     <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-box-seam me-2 text-success"></i>Items Ready for Recycling</h5>
                 </div>
+                <!--BUTTON TO RECORD RECYCLING-->
                 <a asp-action="Record" class="btn btn-green shadow-sm px-4 rounded-pill">
                     <i class="bi bi-plus-circle me-2"></i> Record Recycling
                 </a>
@@ -87,7 +89,7 @@
                     }
                 </div>
             </div>
-
+<!--RECENT RECYLING INFO-->
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-white py-3 border-bottom rounded-top-4">
                     <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Recycling Records</h5>

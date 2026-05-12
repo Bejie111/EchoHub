@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<!--HEADER-->
 <div class="container-fluid py-4 bg-light min-vh-100">
-
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
          style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
@@ -26,14 +26,13 @@
         </div>
     </div>
 
+<!--EDIT CATEGORY-->
     <div class="row">
         <div class="col-md-6">
             <div class="card border-0 shadow-sm rounded-4 p-4">
                 <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Update Category Information</h5>
-
                 <form asp-action="Edit" method="post">
                     <input type="hidden" asp-for="CategoryId" />
-
                     <div class="mb-4">
                         <label asp-for="Name" class="form-label fw-semibold text-secondary small uppercase">Category Name</label>
                         <div class="input-group shadow-sm rounded-3 overflow-hidden">

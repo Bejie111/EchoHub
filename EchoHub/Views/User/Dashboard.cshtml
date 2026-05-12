@@ -4,8 +4,9 @@
     ViewData["Title"] = "User Dashboard";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<div class="container-fluid py-4 bg-light min-vh-100">
 
+<!--HEADER-->
+<div class="container-fluid py-4 bg-light min-vh-100">
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
          style="background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%); border: 1px solid #e2e8f0;">
 
@@ -26,6 +27,8 @@
             </div>
         </div>
     </div>
+
+<!--CARD FOR TOTAL SUBMISSION, ITEMS RECYCLED, ITEMS PENDING, AND TOTAL ITEMS-->
     <div class="row g-3">
         <div class="col-md-3">
             <div class="card border-0 border-start border-primary border-4 shadow-sm h-100 bg-white">
@@ -64,6 +67,7 @@
         </div>
     </div>
 
+<!--QUICK ACTION LINK TO SUBMIT E-WASTE-->
     <div class="card border-0 shadow-sm rounded-4 mt-4">
         <div class="card-body d-flex justify-content-between align-items-center py-3">
             <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-lightning-charge me-2 text-warning"></i>Quick Actions</h5>
@@ -73,6 +77,7 @@
         </div>
     </div>
 
+<!--VIEW ALL BUTTON LINK TO MY SUBMISSIONS-->
     <div class="card border-0 shadow-sm rounded-4 mt-4">
         <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center rounded-top-4">
             <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-clock-history me-2 text-primary"></i>Recent Submissions</h5>
@@ -80,6 +85,8 @@
                 View All
             </a>
         </div>
+
+<!--TABLE FOR SUBMISSION-->
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
