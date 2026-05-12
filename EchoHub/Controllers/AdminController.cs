@@ -20,14 +20,6 @@ namespace EchoHub.Controllers
         {
             var users = _context.Users.AsQueryable();
 
-            //SEARCH
-            if (!string.IsNullOrEmpty(search))
-            {
-                users = users.Where(u =>
-                    u.Name.Contains(search) ||
-                    u.Email.Contains(search));
-            }
-
             //SUBMISSION - Counts how many e-waste items each user has submitted and passes this data to the view using ViewBag.
             ViewBag.SubmissionCounts = _context.EwasteItems
                 .GroupBy(e => e.UserId)
@@ -131,7 +123,7 @@ namespace EchoHub.Controllers
             ViewBag.MonthlyRecycled = System.Text.Json.JsonSerializer.Serialize(monthlyRecycled);
             ViewBag.MonthlyDisposed = System.Text.Json.JsonSerializer.Serialize(monthlyDisposed);
 
-            // Category breakdown for pie chart
+            //CATEGORY DISTRIBUTION - Groups e-waste items by category and counts how many items fall into each category, passing this data to the view for visualization.
             var categoryData = _context.EwasteItems
                 .GroupBy(e => e.Category)
                 .Select(g => new { Category = g.Key, Count = g.Count() })
