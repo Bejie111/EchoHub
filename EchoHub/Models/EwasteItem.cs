@@ -18,6 +18,8 @@ namespace EchoHub.Models
 
         public string Status { get; set; }
 
+        public decimal? AmountPaid { get; set; }
+
         public string? Address { get; set; }
 
         public DateTime DateSubmitted { get; set; }

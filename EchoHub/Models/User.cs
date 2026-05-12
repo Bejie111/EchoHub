@@ -38,6 +38,7 @@ namespace EchoHub.Models
 
         //Authorization: Determines system access levels (e.g., "Admin", "Staff", "User")
         public string Role { get; set; } = "User";
+        public string? ProfilePicture { get; set; } // Optional field for storing the path to the user's profile picture
 
         //Automatically records when the account was created
         public DateTime CreatedAt { get; set; } = DateTime.Now;

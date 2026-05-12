@@ -4,7 +4,8 @@
     ViewData["Title"] = "View E-Waste Item";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
-
+<div class="container-fluid py-3">
+    @await Html.PartialAsync("_UserProfilePartial", (EchoHub.Models.User)ViewBag.User)
 <div class="container-fluid py-4">
     <div class="header-container shadow-sm mb-4">
         <div class="d-flex align-items-center gap-3">
@@ -85,3 +86,4 @@
             </div>
         </div>
     </div>
+</div>

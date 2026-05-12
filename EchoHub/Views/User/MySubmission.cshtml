@@ -4,7 +4,8 @@
     ViewData["Title"] = "My Submissions";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-
+<div class="container-fluid py-3">
+    @await Html.PartialAsync("_UserProfilePartial", ViewBag.User as EchoHub.Models.User)
 <div class="container-fluid py-4 bg-light min-vh-100">
 
     <!-- Header -->
@@ -51,6 +52,7 @@
                             <th class="py-3 text-uppercase small fw-bold text-secondary">Category</th>
                             <th class="py-3 text-uppercase small fw-bold text-secondary">Status</th>
                             <th class="pe-4 py-3 text-uppercase small fw-bold text-secondary">Date Submitted</th>
+                            <th class="pe-4 py-3 text-uppercase small fw-bold text-secondary">Amount Paid</th>
                         </tr>
                     </thead>
 
@@ -96,6 +98,30 @@
                                     <td class="pe-4 text-muted small">
                                         @item.DateSubmitted.ToString("MMM dd, yyyy")
                                     </td>
+                                        <td>
+                                            <span class="badge">
+                                            @if(item.AmountPaid != null)
+                                            {
+                                                    <span class="text-success fw-bold">
+                                                    ₱@item.AmountPaid
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    Not Yet
+                                                </span>
+                                            }
+                                            @{
+                                                // Define unique colors for each AmountPaid 
+                                                var badgerColor = item.AmountPaid switch
+                                                {
+                                                    null => "bg-secondary-subtle text-muted border-secondary",
+                                                    _ => "bg-success-subtle text-success border-success"
+                                                };
+                                            }
+                                            </span>
+                                        </td>
                                 </tr>
                             }
                         }
@@ -107,7 +133,7 @@
     </div>
 </div>
 </div>
-
+</div>
 <!--SEARCH FILTER-->
 @section Scripts {
 

@@ -16,6 +16,9 @@ namespace EchoHub.Controllers
         public IActionResult Reports() 
         {
             var model = new ReportsViewModel();
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
 
             //SUMMARY OF THE TOTAL SUBMITTED, RECYCLED, AND DISPOSED ITEMS
             model.TotalSubmitted = _context.EwasteItems.Count();

@@ -1,7 +1,7 @@
 ﻿using EchoHub.Data;
 using EchoHub.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace EchoHub.Controllers
 {
@@ -23,10 +23,19 @@ namespace EchoHub.Controllers
            
             int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));//CONVERS THE STRING USERID TO INT
 
+            var role = HttpContext.Session.GetString("Role");
+            ViewBag.Role = role;
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
+
             var submissions = _context.EwasteItems
                 .Where(e => e.UserId == userId)
                 .OrderByDescending(e => e.DateSubmitted)
                 .ToList();
+
+            ViewData["TotalAmountPaid"] = _context.EwasteItems
+            .Where(e => e.UserId == userId)
+            .Sum(e => (decimal?)e.AmountPaid) ?? 0;
 
             ViewBag.TotalSubmission = submissions.Count();//STORE THE TOTAL NUMBER OF SUBMISSIONS IN THE VIEWBAG
             ViewBag.Recycled = submissions.Count(e => e.Status == "Recycled");//STORE THE NUMBER OF RECYCLED ITEMS IN THE VIEWBAG
@@ -40,6 +49,18 @@ namespace EchoHub.Controllers
         [Route("User/Submit")]
         public IActionResult Submit()//THIS IS THE GET METHOD FOR THE SUBMIT VIEW IT SHOWS THE FORM FOR THE USER TO SUBMIT THEIR E-WASTE ITEM
         {
+            var sessionUserId = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(sessionUserId))
+                return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(sessionUserId);
+
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
+            ViewData["TotalAmountPaid"] = _context.EwasteItems
+           .Where(e => e.UserId == userId)
+           .Sum(e => (decimal?)e.AmountPaid) ?? 0;
             ViewBag.Categories = _context.Categories.ToList();
             return View();
         }
@@ -105,14 +126,140 @@ namespace EchoHub.Controllers
                     e.Category.Contains(search) ||
                     e.Status.Contains(search));
             }
-
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
+            ViewData["TotalAmountPaid"] = _context.EwasteItems
+           .Where(e => e.UserId == userId)
+           .Sum(e => (decimal?)e.AmountPaid) ?? 0;
             var items = val
-                .OrderByDescending(e => e.DateSubmitted)
-                .ToList();
+            .OrderByDescending(e => e.DateSubmitted)
+            .ToList();
 
             ViewBag.Search = search;
 
             return View(items);
+        }
+        [Route("User/Profile")]
+        public IActionResult Profile()
+        {
+            int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var lastEwaste = _context.EwasteItems
+           .Where(e => e.UserId == userId)
+           .OrderByDescending(e => e.DateSubmitted)
+           .FirstOrDefault();
+
+                ViewBag.Address = lastEwaste?.Address;
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult Update(User model, IFormFile file)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id);
+
+            if (user == null)
+                return NotFound();
+
+            user.Name = model.Name;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+
+            // PROFILE IMAGE
+            if (file != null && file.Length > 0)
+            {
+                string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                string path = Path.Combine(_env.WebRootPath, "uploads", fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                user.ProfilePicture = fileName;
+            }
+
+            _context.SaveChanges();
+
+            return user.Role switch
+            {
+                "Admin" => RedirectToAction("Dashboard", "Admin"),
+                "Staff" => RedirectToAction("Dashboard", "Staff"),
+                _ => RedirectToAction("Dashboard", "User")
+            };
+        }
+        public IActionResult RemovePicture(int id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user != null)
+            {
+                user.ProfilePicture = null;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Profile");
+        }
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(string currentPassword,
+                                            string newPassword,
+                                            string confirmPassword)
+        {
+            int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            // CHECK CURRENT PASSWORD
+            if (user.Password != currentPassword)
+            {
+                ViewBag.Error = "Current password is incorrect.";
+                return View();
+            }
+
+            // CHECK MATCH
+            if (newPassword != confirmPassword)
+            {
+                ViewBag.Error = "New password and confirm password do not match.";
+                return View();
+            }
+            
+            var reg = new Regex(
+            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
+
+            if (!reg.IsMatch(newPassword))
+            {
+                ModelState.AddModelError("",
+                    "Password must contain uppercase, lowercase, number, special character, and be at least 8 characters.");
+
+                return View();
+            }
+
+            // OPTIONAL VALIDATION
+            if (string.IsNullOrWhiteSpace(newPassword))
+            {
+                ViewBag.Error = "New password cannot be empty.";
+                return View();
+            }
+
+            // UPDATE PASSWORD
+            user.Password = newPassword;
+
+            _context.SaveChanges();
+
+            ViewBag.Success = "Password changed successfully.";
+
+            return View();
         }
     }
 }

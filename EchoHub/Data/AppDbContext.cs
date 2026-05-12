@@ -16,7 +16,9 @@ namespace EchoHub.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<EwasteItem>()
+            .Property(e => e.AmountPaid)
+            .HasPrecision(18, 2);
             // Force mapping for the missing tables
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<EwasteItem>().ToTable("EwasteItems");

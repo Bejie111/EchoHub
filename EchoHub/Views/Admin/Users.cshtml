@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <link rel="stylesheet" href="~/css/Admin.css" />
-
+<div class="container-fluid py-3">
+    @await Html.PartialAsync("_UserProfilePartial", (EchoHub.Models.User)ViewBag.User)
 <div class="container-fluid py-4 bg-light min-vh-100">
 
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
@@ -122,6 +123,7 @@
             </div>
         }
     </div>
+</div>
 </div>
 @section Scripts {
 

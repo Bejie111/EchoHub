@@ -22,6 +22,11 @@ namespace EchoHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            var role = HttpContext.Session.GetString("Role");
+            ViewBag.Role = role;
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             // ALL ITEMS ORDERED BY MOST RECENT
             var items = _context.EwasteItems
                 .OrderByDescending(e => e.DateSubmitted)
@@ -48,6 +53,9 @@ namespace EchoHub.Controllers
 
         public IActionResult Manage()// THIS IS THE MANAGE VIEW FOR STAFF TO SEE ALL THE ITEMS IN THE SYSTEM
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var items = _context.EwasteItems.ToList();
             return View(items);
         }
@@ -56,6 +64,9 @@ namespace EchoHub.Controllers
         [Route("Staff/ViewItem/{id}")]
         public IActionResult ViewItem(int id) //THIS IS THE VIEW ITEM FOR STAFF TO SEE THE DETAILS OF THE ITEM
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var item = _context.EwasteItems
                 .Include(e => e.User)
                 .FirstOrDefault(e => e.EwasteId == id);

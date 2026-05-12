@@ -15,6 +15,9 @@ namespace EchoHub.Controllers
         }
         public IActionResult Dashboard() //VIEW ALL THE ITEMS THAT ARE READY FOR RECYCLING OR DISPOSAL, AND ALSO SHOW THE COUNT OF ITEMS IN EACH STATUS
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var readyItems = _context.EwasteItems
                 .Where(e => e.Status == "Collected") //ONLY SHOW THE ITEMS THAT ARE READY FOR RECYCLING OR DISPOSAL (STATUS "Collected")
                 .ToList();
@@ -44,6 +47,9 @@ namespace EchoHub.Controllers
         [HttpGet]
         public IActionResult Record()//SHOW THE FORM TO RECORD THE RECYCLING OR DISPOSAL OF AN ITEM
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var item = _context.EwasteItems
                 .Where(e => e.Status == "Collected")
                 .ToList();
@@ -54,7 +60,7 @@ namespace EchoHub.Controllers
         }
 
         [HttpPost]
-        public IActionResult Record(int EwasteId, string Status)//HANDLE THE FORM SUBMISSION TO RECORD THE RECYCLING OR DISPOSAL OF AN ITEM
+        public IActionResult Record(int EwasteId, string Status,decimal AmountPaid)//HANDLE THE FORM SUBMISSION TO RECORD THE RECYCLING OR DISPOSAL OF AN ITEM
         {
             var item = _context.EwasteItems.Find(EwasteId);
 
@@ -68,6 +74,7 @@ namespace EchoHub.Controllers
             if (ModelState.IsValid)//VALIDATE THE MODEL AND IF VALID, UPDATE THE STATUS OF THE E-WASTE ITEM TO "Recycled" OR "Disposed" BASED ON THE SELECTED STATUS AND SAVE THE CHANGES TO THE DATABASE
             { 
                 item.Status = Status;
+                item.AmountPaid = AmountPaid;
                 _context.SaveChanges();
                 return RedirectToAction("Dashboard");
 

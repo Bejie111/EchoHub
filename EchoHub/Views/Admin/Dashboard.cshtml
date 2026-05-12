@@ -4,6 +4,8 @@
 
     var percent = ViewBag.Percent ?? 0;
 }
+<div class="container-fluid py-3">
+   @await Html.PartialAsync("_UserProfilePartial", (EchoHub.Models.User)ViewBag.User)
 <!--For the Header-->
 <div class="container-fluid py-4 bg-light min-vh-100">
 
@@ -132,7 +134,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

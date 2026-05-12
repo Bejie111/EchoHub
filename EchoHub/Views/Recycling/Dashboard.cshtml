@@ -4,6 +4,8 @@
     ViewData["Title"] = "Recycling Tracking";
     Layout = "~/Views/Shared/_StaffLayout.cshtml";
 }
+<div class="container-fluid py-3">
+    @await Html.PartialAsync("_UserProfilePartial", (EchoHub.Models.User)ViewBag.User)
 <!--HEADER-->
 <div class="container-fluid py-4 bg-light min-vh-100">
     <div class="header-container mb-4 p-4 rounded-4 shadow-sm position-relative overflow-hidden"
@@ -122,4 +124,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

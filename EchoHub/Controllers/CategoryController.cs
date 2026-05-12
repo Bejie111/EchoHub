@@ -22,7 +22,9 @@ namespace EchoHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var categories = _context.Categories.ToList();
 
             // TOTAL ITEMS - COUNT ALL ITEMS IN THE DATABASE
@@ -43,7 +45,10 @@ namespace EchoHub.Controllers
         [HttpGet]
         [Route("Category/Create")]
         public IActionResult Create() // GET method to show the create form
-        { 
+        {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             return View();
         }
 
@@ -79,6 +84,9 @@ namespace EchoHub.Controllers
         [Route("Category/Edit/{CategoryId}")]
         public IActionResult Edit(int CategoryId)
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var category = _context.Categories.Find(CategoryId);
             return View(category);
         }

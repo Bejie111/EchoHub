@@ -17,6 +17,9 @@ namespace EchoHub.Controllers
         // DASHBOARD - VIEW ALL THE PENDING COLLECTIONS
         public IActionResult Collect()
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             //PENDING ITEMS - NOT ASSIGNED TO ANY COLLECTION
             ViewBag.PendingItems = _context.EwasteItems
                 .Include(e => e.User)
@@ -35,6 +38,9 @@ namespace EchoHub.Controllers
         // GET: ASSIGN COLLECTION - SHOW THE FORM TO ASSIGN A COLLECTION TO AN E-WASTE ITEM
         public IActionResult Assign(int id)
         {
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             var item = _context.EwasteItems.Find(id);
 
             if (item == null)

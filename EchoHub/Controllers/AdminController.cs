@@ -7,19 +7,25 @@ namespace EchoHub.Controllers
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public AdminController(AppDbContext context)
+        public AdminController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
+
 
         //USERS MANAGEMENT
         [HttpGet]
         [Route("Admin/Users")]
         public IActionResult Users(string search)
         {
-            var users = _context.Users.AsQueryable();
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
 
+            ViewBag.User = user;
+            var users = _context.Users.AsQueryable();
             //SUBMISSION - Counts how many e-waste items each user has submitted and passes this data to the view using ViewBag.
             ViewBag.SubmissionCounts = _context.EwasteItems
                 .GroupBy(e => e.UserId)
@@ -36,8 +42,12 @@ namespace EchoHub.Controllers
         [Route("Admin/EditUser/{id}")]
         public IActionResult EditUser(int id)
         {
-            var user = _context.Users.Find(id);
-            return View(user);
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            ViewBag.User = user;
+            var users = _context.Users.Find(id);
+            return View(users);
         }
 
         //USER UPDATE - Handles the form submission from the EditUser view, updating the user's details in the database.
@@ -81,7 +91,13 @@ namespace EchoHub.Controllers
         {
             if (HttpContext.Session.GetString("Role") != "Admin")
                 return RedirectToAction("Login", "Account");
+            var role = HttpContext.Session.GetString("Role");
+            ViewBag.Role = role;
+            ViewBag.TotalAmountPaid = null;
 
+            var userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            ViewBag.User = user;
             // Stats
             ViewBag.TotalUsers = _context.Users.Count();
             ViewBag.TotalItems = _context.EwasteItems.Count();

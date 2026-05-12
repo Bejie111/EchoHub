@@ -273,3 +273,21 @@ body {
         margin-left: 60px;
     }
 }
+/*===========
+    Partial View
+=============
+*/
+.dropdown-menu {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+}
+
+    .dropdown-item:hover {
+        background-color: #f0fff4;
+        color: #27ae60;
+    }
