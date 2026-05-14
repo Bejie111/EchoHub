@@ -97,31 +97,6 @@
 
                                     <td class="pe-4 text-muted small">
                                         @item.DateSubmitted.ToString("MMM dd, yyyy")
-                                    </td>
-                                        <td>
-                                            <span class="badge">
-                                            @if(item.AmountPaid != null)
-                                            {
-                                                    <span class="text-success fw-bold">
-                                                    ₱@item.AmountPaid
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted">
-                                                    Not Yet
-                                                </span>
-                                            }
-                                            @{
-                                                // Define unique colors for each AmountPaid 
-                                                var badgerColor = item.AmountPaid switch
-                                                {
-                                                    null => "bg-secondary-subtle text-muted border-secondary",
-                                                    _ => "bg-success-subtle text-success border-success"
-                                                };
-                                            }
-                                            </span>
-                                        </td>
                                 </tr>
                             }
                         }

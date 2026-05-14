@@ -6,20 +6,6 @@
     <div>
         <h5 class="mb-0 fw-bold text-dark"></h5>
     </div>
-    @{
-        var role = Context.Session.GetString("Role");
-        var total = ViewBag.TotalAmountPaid ?? 0;
-    }
-    <!-- ONLY USER SEES EARNINGS -->
-    @if (role == "User")
-    {
-        <div class="text-end">
-            <small class="text-muted">Total Earnings</small>
-            <h5 class="text-success mb-0">
-                ₱ @Convert.ToDecimal(total).ToString("N2")
-            </h5>
-        </div>
-    }
     <!-- RIGHT SIDE (PROFILE DROPDOWN) -->
     <div class="dropdown">
 
